@@ -5,7 +5,7 @@ import { Logo } from '../components/Logo';
 import { Alert, Button, Field, inputClass, PasswordField } from '../components/ui';
 import { useAuth } from '../context/AuthContext';
 import { useTitle } from '../hooks/useTitle';
-import { GENDERS, INVESTMENT_AMOUNTS, INVESTMENT_OPTIONS, OCCUPATIONS, TITLES } from '../lib/application';
+import { BANKS, GENDERS, INVESTMENT_AMOUNTS, INVESTMENT_OPTIONS, OCCUPATIONS, TITLES } from '../lib/application';
 import { cx, formatZAR } from '../lib/format';
 import { passwordScore, validateRegistration } from '../lib/validators';
 
@@ -145,7 +145,12 @@ export default function Register() {
           </Field>
           <div className="grid gap-4 sm:grid-cols-2">
             <Field label="13. Bank name" error={errors.bankName}>
-              <input className={inputClass(errors.bankName)} value={form.bankName} onChange={(event) => update('bankName', event.target.value)} />
+              <select className={inputClass(errors.bankName)} value={form.bankName} onChange={(event) => update('bankName', event.target.value)}>
+                <option value="">Select a bank</option>
+                {BANKS.map((bank) => (
+                  <option key={bank} value={bank}>{bank}</option>
+                ))}
+              </select>
             </Field>
             <Field label="14. Bank account number" error={errors.accountNumber}>
               <input className={inputClass(errors.accountNumber)} inputMode="numeric" value={form.accountNumber} onChange={(event) => update('accountNumber', event.target.value)} />

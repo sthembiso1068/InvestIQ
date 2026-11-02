@@ -27,7 +27,7 @@ function Stat({ label, cents, hint, icon: Icon, tone = 'neutral', featured = fal
   const toneClass = tone === 'positive' ? 'text-positive' : tone === 'negative' ? 'text-negative' : 'text-navy';
   const iconClass = tone === 'positive' ? 'bg-emerald-50 text-positive' : tone === 'negative' ? 'bg-red-50 text-negative' : 'bg-slate-100 text-navy';
   return (
-    <article className="rounded-2xl border border-slate-200/80 bg-white p-5 shadow-[0_8px_30px_rgba(7,24,39,0.05)]">
+    <article className="rounded-2xl border-0 bg-white p-5 shadow-[0_8px_30px_rgba(7,24,39,0.05)]">
       <div className="flex items-center justify-between">
         <p className="text-xs font-semibold uppercase tracking-[0.14em] text-slate-500">{label}</p>
         <span className={`grid h-10 w-10 place-items-center rounded-xl ${iconClass}`}>

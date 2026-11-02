@@ -8,7 +8,7 @@
  * Keep the function names and the returned shapes.
  */
 import { byNewest } from '../lib/format.js';
-import { optionById, WITHDRAWAL_WAIT_MESSAGE } from '../lib/application.js';
+import { BANKS, optionById, WITHDRAWAL_WAIT_MESSAGE } from '../lib/application.js';
 import {
   isEmail,
   isSAPhone,
@@ -49,7 +49,7 @@ export const PAYMENT_METHODS = [
   },
 ];
 
-export const BANKS = ['FNB', 'Standard Bank', 'Absa', 'Nedbank', 'Capitec', 'Investec', 'TymeBank'];
+export { BANKS };
 
 export const BANK_DETAILS = {
   bank: 'SV Capital',

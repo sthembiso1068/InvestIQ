@@ -1,3 +1,5 @@
+import { BANKS } from './application.js';
+
 export function isEmail(value) {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(String(value).trim());
 }
@@ -82,8 +84,7 @@ export function validateRegistration(input) {
   }
   if (!['opt1', 'opt2', 'opt3', 'opt4', 'opt5'].includes(optionId)) errors.optionId = 'Select an investment duration.';
   if (!isDate(investmentDate)) errors.investmentDate = 'Enter the investment date.';
-  const bankError = requiredText(bankName, 'Enter the bank name.', 60);
-  if (bankError) errors.bankName = bankError;
+  if (!BANKS.includes(bankName)) errors.bankName = 'Select a bank.';
   const digits = String(accountNumber || '').replace(/\D/g, '');
   if (digits.length < 8 || digits.length > 16) errors.accountNumber = 'Enter an account number of 8 to 16 digits.';
   const referralError = requiredText(referralName, 'Enter the referral name.', 80);

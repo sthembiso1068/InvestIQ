@@ -1,3 +1,4 @@
+export const BANKS = ['FNB', 'Standard Bank', 'Absa', 'Nedbank', 'Capitec', 'Investec', 'TymeBank'];
 export const TITLES = ['Miss', 'Mrs', 'Mr', 'Dr'];
 export const GENDERS = ['Male', 'Female', "Don't specify"];
 export const OCCUPATIONS = ['Employed', 'Unemployed', 'Self Employed'];

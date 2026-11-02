@@ -94,7 +94,7 @@ export function Disclaimer({ className = '' }) {
 
 export function Card({ className = '', children }) {
   return (
-    <section className={cx('rounded-2xl border border-slate-200/80 bg-white shadow-[0_8px_30px_rgba(7,24,39,0.05)]', className)}>
+    <section className={cx('rounded-2xl border-0 bg-white shadow-[0_8px_30px_rgba(7,24,39,0.05)]', className)}>
       {children}
     </section>
   );
