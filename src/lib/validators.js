@@ -33,18 +33,63 @@ export function validateLogin({ email, password }) {
   return errors;
 }
 
-export function validateRegistration({ name, email, phone, password, confirm }) {
+function requiredText(value, message, max = 120) {
+  const clean = String(value || '').trim();
+  if (!clean) return message;
+  if (clean.length > max) return `Use ${max} characters or fewer.`;
+  return '';
+}
+
+function isPastDate(value) {
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(String(value || ''))) return false;
+  const date = new Date(`${value}T00:00:00`);
+  if (Number.isNaN(date.getTime())) return false;
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  return date.getTime() <= today.getTime() && date.getFullYear() > 1900;
+}
+
+function isDate(value) {
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(String(value || ''))) return false;
+  const date = new Date(`${value}T00:00:00`);
+  return !Number.isNaN(date.getTime());
+}
+
+export function validateRegistration(input) {
   const errors = {};
-  const cleanName = String(name || '').trim();
-  if (cleanName.split(/\s+/).filter(Boolean).length < 2) {
-    errors.name = 'Enter your full name.';
-  } else if (cleanName.length > 80) {
-    errors.name = 'Name must be 80 characters or fewer.';
-  }
+  const {
+    title, firstName, surname, gender, dateOfBirth, email, phone, address, occupation,
+    investmentAmount, optionId, investmentDate, bankName, accountNumber, referralName, referralNumber,
+    password, confirm,
+  } = input;
+  if (!['Miss', 'Mrs', 'Mr', 'Dr'].includes(title)) errors.title = 'Select a title.';
+  const nameError = requiredText(firstName, 'Enter your name.', 40);
+  if (nameError) errors.firstName = nameError;
+  const surnameError = requiredText(surname, 'Enter your surname.', 40);
+  if (surnameError) errors.surname = surnameError;
+  if (!['Male', 'Female', "Don't specify"].includes(gender)) errors.gender = 'Select a gender.';
+  if (!isPastDate(dateOfBirth)) errors.dateOfBirth = 'Enter a valid date of birth.';
   if (!String(email || '').trim()) errors.email = 'Enter your email address.';
   else if (!isEmail(email)) errors.email = 'Enter a valid email address.';
-  if (!String(phone || '').trim()) errors.phone = 'Enter your phone number.';
-  else if (!isSAPhone(phone)) errors.phone = 'Use a South African number, such as 082 555 0142 or +27 82 555 0142.';
+  if (!String(phone || '').trim()) errors.phone = 'Enter your mobile number.';
+  else if (!isSAPhone(phone)) errors.phone = 'Use a South African number, such as 082 555 0142.';
+  const addressError = requiredText(address, 'Enter your address.', 180);
+  if (addressError) errors.address = addressError;
+  if (!['Employed', 'Unemployed', 'Self Employed'].includes(occupation)) errors.occupation = 'Select an occupation.';
+  const amount = Number(investmentAmount);
+  if (![2000, 3000, 4000, 5000, 6000, 7000, 8000, 9000, 10000, 11000, 12000, 13000, 14000].includes(amount)) {
+    errors.investmentAmount = 'Select an investment amount.';
+  }
+  if (!['opt1', 'opt2', 'opt3', 'opt4', 'opt5'].includes(optionId)) errors.optionId = 'Select an investment duration.';
+  if (!isDate(investmentDate)) errors.investmentDate = 'Enter the investment date.';
+  const bankError = requiredText(bankName, 'Enter the bank name.', 60);
+  if (bankError) errors.bankName = bankError;
+  const digits = String(accountNumber || '').replace(/\D/g, '');
+  if (digits.length < 8 || digits.length > 16) errors.accountNumber = 'Enter an account number of 8 to 16 digits.';
+  const referralError = requiredText(referralName, 'Enter the referral name.', 80);
+  if (referralError) errors.referralName = referralError;
+  if (!String(referralNumber || '').trim()) errors.referralNumber = 'Enter the referral number.';
+  else if (!isSAPhone(referralNumber)) errors.referralNumber = 'Use a South African referral number.';
   Object.assign(errors, validatePassword(password));
   if (!confirm) errors.confirm = 'Confirm your password.';
   else if (password !== confirm) errors.confirm = 'Passwords do not match.';

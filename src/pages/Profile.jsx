@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Camera } from 'lucide-react';
+import { ApplicationRecord } from '../components/ApplicationRecord';
 import { TransactionTable } from '../components/TransactionTable';
 import { Alert, Avatar, Button, Card, Field, inputClass, Money, PageHeader, PasswordField, StatusPill } from '../components/ui';
 import { useAuth } from '../context/AuthContext';
@@ -160,6 +161,7 @@ export default function Profile() {
         </Card>
 
         <div className="space-y-4">
+          <ApplicationRecord application={data?.profile?.application || user?.application} title="Investment form" />
           <Card className="p-5">
             <h2 className="text-base font-semibold text-navy">Personal details</h2>
             <form className="mt-4 grid gap-4 sm:grid-cols-2" onSubmit={onSave}>

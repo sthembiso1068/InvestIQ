@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { ArrowDownToLine, ArrowUpFromLine, Landmark, PiggyBank, Plus, TrendingDown, TrendingUp, Wallet } from 'lucide-react';
+import { ArrowUpFromLine, Landmark, PiggyBank, Plus, TrendingDown, TrendingUp, Wallet } from 'lucide-react';
 import { AllocationDonut, ProfitChart } from '../components/ProfitChart';
 import { TransactionTable, ViewAllLink } from '../components/TransactionTable';
 import { Card, Disclaimer, EmptyState, Money, PageHeader, Skeleton } from '../components/ui';
@@ -77,14 +77,11 @@ export default function Dashboard() {
       <PageHeader
         eyebrow={`${greeting()}, ${firstName(user?.name)}`}
         title="Your investment account"
-        subtitle="Balances below are calculated from your personal ledger. Illustrated profit is simulated."
+        subtitle="Balances below are calculated from your personal ledger. An administrator deposits the amount on your investment form."
         actions={
           <>
             <Link to="/investments" className="inline-flex items-center gap-2 rounded-xl bg-gold px-4 py-2.5 text-sm font-semibold text-navy">
               <Plus size={16} /> Invest
-            </Link>
-            <Link to="/wallet?intent=deposit" className="inline-flex items-center gap-2 rounded-xl bg-navy px-4 py-2.5 text-sm font-semibold text-white">
-              <ArrowDownToLine size={16} /> Deposit
             </Link>
             <Link to="/wallet?intent=withdraw" className="inline-flex items-center gap-2 rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-sm font-semibold text-navy">
               <ArrowUpFromLine size={16} /> Withdraw
@@ -97,7 +94,7 @@ export default function Dashboard() {
         <Stat featured label="Total account balance" cents={balances.totalCents} hint="Available funds plus active investments" icon={Landmark} />
         <Stat label="Available balance" cents={balances.availableCents} hint="Ready for a new investment or withdrawal" icon={Wallet} />
         <Stat label="Total invested" cents={balances.investedCents} hint="Currently allocated to active packages" icon={PiggyBank} />
-        <Stat label="Total profit or loss" cents={balances.profitCents} hint="Illustrative credits from simulated maturities" icon={ProfitIcon} tone={profitTone} />
+        <Stat label="Total profit or loss" cents={balances.profitCents} hint="Illustrative credits after a package completes" icon={ProfitIcon} tone={profitTone} />
       </div>
 
       <div className="mt-4 grid gap-4 xl:grid-cols-3">
@@ -105,9 +102,8 @@ export default function Dashboard() {
           <div className="flex items-center justify-between px-5 pt-5">
             <div>
               <h2 className="text-base font-semibold text-navy">Illustrated profit and loss</h2>
-              <p className="text-sm text-slate-500">Cumulative demo credits over the last 30 days.</p>
+              <p className="text-sm text-slate-500">Cumulative illustrative credits over the last 30 days.</p>
             </div>
-            <span className="rounded-full bg-[#F8F1D8] px-2.5 py-1 text-[11px] font-bold uppercase tracking-wide text-[#7A5B10]">Demo</span>
           </div>
           <ProfitChart points={data.chart} />
         </Card>
@@ -140,7 +136,7 @@ export default function Dashboard() {
             <TransactionTable
               rows={data.transactions.slice(0, 6)}
               emptyTitle="No transactions yet"
-              emptyBody="Make a simulated deposit to fund this account. It stays pending until an administrator approves it."
+              emptyBody="An administrator deposits the amount from your investment form. That entry will show here."
             />
           </div>
         </Card>

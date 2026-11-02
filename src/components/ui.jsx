@@ -77,7 +77,7 @@ const ALERTS = {
   success: 'bg-emerald-50 text-emerald-950 ring-emerald-100',
   danger: 'bg-red-50 text-red-800 ring-red-100',
   warning: 'bg-amber-50 text-amber-950 ring-amber-100',
-  demo: 'bg-[#FBF6E4] text-[#5C4A12] ring-[#E7D7A1]',
+  note: 'bg-[#FBF6E4] text-[#5C4A12] ring-[#E7D7A1]',
 };
 
 export function Alert({ tone = 'info', children, className = '' }) {
@@ -86,8 +86,8 @@ export function Alert({ tone = 'info', children, className = '' }) {
 
 export function Disclaimer({ className = '' }) {
   return (
-    <Alert tone="demo" className={className}>
-      <strong className="font-semibold">Illustrative demo.</strong> Projected earnings are estimates, not guaranteed returns or verified trading results. Deposits and withdrawals are simulated and do not move real money.
+    <Alert tone="note" className={className}>
+      <strong className="font-semibold">Estimate only.</strong> Projected earnings are estimates, not guaranteed returns or verified trading results.
     </Alert>
   );
 }

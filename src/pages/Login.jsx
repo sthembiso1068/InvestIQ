@@ -7,9 +7,8 @@ import { useTitle } from '../hooks/useTitle';
 import { rememberedEmail } from '../services/api';
 import { validateLogin } from '../lib/validators';
 
-const DEMOS = [
-  { label: 'Client', email: 'thabo@example.com', password: 'Demo@12345', hint: 'Thabo Mokoena' },
-  { label: 'Administrator', email: 'admin@svcapital.demo', password: 'Admin@12345', hint: 'Nomsa Dlamini' },
+const SAMPLES = [
+  { label: 'Administrator', email: 'admin@svcapital.co.za', password: 'Admin@12345', hint: 'Nomsa Dlamini' },
 ];
 
 export default function Login() {
@@ -46,7 +45,7 @@ export default function Login() {
     <AuthShell>
       <p className="text-xs font-semibold uppercase tracking-[0.16em] text-[#8A6D1B]">Welcome back</p>
       <h1 className="mt-2 text-3xl font-semibold tracking-tight text-navy">Sign in to your account</h1>
-      <p className="mt-2 text-sm leading-6 text-slate-500">Use the email and password for your SV Capital demo account.</p>
+      <p className="mt-2 text-sm leading-6 text-slate-500">Use the email and password for your SV Capital account.</p>
       <form className="mt-8 space-y-4" onSubmit={onSubmit} noValidate>
         {formError ? <Alert tone="danger">{formError}</Alert> : null}
         <Field label="Email address" error={errors.email}>
@@ -92,18 +91,18 @@ export default function Login() {
         </Link>
       </p>
       <div className="mt-8 rounded-2xl border border-dashed border-[#E6D7A2] bg-[#FBF6E4] p-4">
-        <p className="text-xs font-semibold uppercase tracking-[0.14em] text-[#7A5B10]">Sample accounts</p>
+        <p className="text-xs font-semibold uppercase tracking-[0.14em] text-[#7A5B10]">Administrator</p>
         <div className="mt-3 grid gap-2">
-          {DEMOS.map((demo) => (
+          {SAMPLES.map((sample) => (
             <button
-              key={demo.email}
+              key={sample.email}
               type="button"
               className="rounded-xl bg-white px-3 py-2 text-left ring-1 ring-[#E6D7A2] hover:ring-gold"
-              onClick={() => setForm({ email: demo.email, password: demo.password, remember: true })}
+              onClick={() => setForm({ email: sample.email, password: sample.password, remember: true })}
             >
-              <span className="block text-sm font-semibold text-navy">{demo.label}</span>
+              <span className="block text-sm font-semibold text-navy">{sample.label}</span>
               <span className="mt-0.5 block text-xs text-slate-500">
-                {demo.hint} · {demo.email} · {demo.password}
+                {sample.hint} · {sample.email}
               </span>
             </button>
           ))}

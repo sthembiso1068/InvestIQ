@@ -48,7 +48,7 @@ export default function Transactions() {
           <TransactionTable
             rows={rows}
             emptyTitle={data?.transactions?.length ? 'No matching transactions' : 'No transactions yet'}
-            emptyBody={data?.transactions?.length ? 'Try another filter or clear the search.' : 'Your ledger is empty. A simulated deposit is the usual first entry.'}
+            emptyBody={data?.transactions?.length ? 'Try another filter or clear the search.' : 'Your ledger is empty until an administrator deposits your investment amount.'}
           />
         )}
       </Card>

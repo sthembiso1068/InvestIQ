@@ -1,11 +1,12 @@
 import { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
+import { ApplicationRecord } from '../../components/ApplicationRecord';
 import { TransactionTable } from '../../components/TransactionTable';
 import { Alert, Avatar, Button, Card, Field, Money, PageHeader, StatusPill, inputClass } from '../../components/ui';
 import { useWorkspace } from '../../context/WorkspaceContext';
 import { formatDate, formatZAR, parseRandToCents } from '../../lib/format';
 import { useTitle } from '../../hooks/useTitle';
-import { adminAdjust, adminGetUser, adminSetStatus } from '../../services/api';
+import { adminAdjust, adminDepositInvestment, adminGetUser, adminSetStatus } from '../../services/api';
 
 export default function AdminUserDetail() {
   const { userId } = useParams();
@@ -17,6 +18,8 @@ export default function AdminUserDetail() {
   const [statusMessage, setStatusMessage] = useState('');
   const [adjust, setAdjust] = useState({ direction: 'credit', amount: '', reason: '' });
   const [adjustMessage, setAdjustMessage] = useState('');
+  const [depositReason, setDepositReason] = useState('');
+  const [depositMessage, setDepositMessage] = useState('');
   const [busy, setBusy] = useState(false);
   useTitle('Client profile');
 
@@ -64,6 +67,23 @@ export default function AdminUserDetail() {
     }
   }
 
+  async function onDeposit(event) {
+    event.preventDefault();
+    setBusy(true);
+    setDepositMessage('');
+    try {
+      await adminDepositInvestment(user.id, depositReason);
+      setDepositReason('');
+      setDepositMessage('Investment amount deposited and written to the audit log.');
+      await load();
+      refresh();
+    } catch (err) {
+      setDepositMessage(err.message);
+    } finally {
+      setBusy(false);
+    }
+  }
+
   async function onAdjust(event) {
     event.preventDefault();
     setBusy(true);
@@ -105,7 +125,22 @@ export default function AdminUserDetail() {
       </div>
 
       {client ? (
-        <div className="mt-4 grid gap-4 lg:grid-cols-2">
+        <div className="mt-4 space-y-4">
+          <ApplicationRecord application={user.application} title="Investment form" />
+          {user.application?.fundingStatus === 'awaiting_deposit' ? (
+            <Card className="p-5">
+              <h2 className="font-semibold text-navy">Deposit investment amount</h2>
+              <p className="mt-1 text-sm text-slate-500">This credits exactly {formatZAR(user.application.investmentAmountCents)}. Clients cannot deposit this themselves.</p>
+              <form className="mt-4 space-y-3" onSubmit={onDeposit}>
+                {depositMessage ? <Alert tone={depositMessage.includes('deposited') ? 'success' : 'danger'}>{depositMessage}</Alert> : null}
+                <Field label="Reason" hint="Required. Stored in the audit log.">
+                  <textarea className={inputClass()} rows={3} value={depositReason} onChange={(event) => setDepositReason(event.target.value)} />
+                </Field>
+                <Button type="submit" loading={busy}>Deposit {formatZAR(user.application.investmentAmountCents)}</Button>
+              </form>
+            </Card>
+          ) : null}
+        <div className="grid gap-4 lg:grid-cols-2">
           <Card className="p-5">
             <h2 className="font-semibold text-navy">Account status</h2>
             <form className="mt-4 space-y-3" onSubmit={onStatus}>
@@ -143,6 +178,7 @@ export default function AdminUserDetail() {
               <Button type="submit" variant="secondary" loading={busy}>Post adjustment</Button>
             </form>
           </Card>
+        </div>
         </div>
       ) : (
         <Alert tone="info" className="mt-4">Administrator accounts do not hold a client ledger.</Alert>

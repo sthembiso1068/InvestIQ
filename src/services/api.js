@@ -8,6 +8,7 @@
  * Keep the function names and the returned shapes.
  */
 import { byNewest } from '../lib/format.js';
+import { optionById, WITHDRAWAL_WAIT_MESSAGE } from '../lib/application.js';
 import {
   isEmail,
   isSAPhone,
@@ -43,29 +44,19 @@ export class ApiError extends Error {
 export const PAYMENT_METHODS = [
   {
     id: 'eft',
-    name: 'Bank EFT (demo)',
-    detail: 'Use the simulated account details. Nothing is sent to a real bank.',
-  },
-  {
-    id: 'instant',
-    name: 'Instant EFT (demo)',
-    detail: 'A simulated instant EFT. No payment provider is contacted.',
-  },
-  {
-    id: 'capitec',
-    name: 'Capitec Pay (demo)',
-    detail: 'A simulated Capitec Pay request. No wallet or bank is debited.',
+    name: 'Bank EFT',
+    detail: 'An administrator deposits the investment amount selected on the form.',
   },
 ];
 
 export const BANKS = ['FNB', 'Standard Bank', 'Absa', 'Nedbank', 'Capitec', 'Investec', 'TymeBank'];
 
 export const BANK_DETAILS = {
-  bank: 'Demo Bank',
-  accountName: 'SV Capital Demo Trust',
-  accountNumber: '0000000000',
-  branchCode: '000000',
-  notice: 'Simulated details. This is not a real bank account and no payment can be received here.',
+  bank: 'SV Capital',
+  accountName: 'SV Capital',
+  accountNumber: '',
+  branchCode: '',
+  notice: 'Clients do not deposit. An administrator credits the investment amount from the registration form.',
 };
 
 export const LIMITS = {
@@ -218,17 +209,49 @@ export async function register(input) {
         fields: { email: 'An account with this email already exists.' },
       });
     }
+    const option = optionById(input.optionId);
+    const firstName = input.firstName.trim().replace(/\s+/g, ' ');
+    const surname = input.surname.trim().replace(/\s+/g, ' ');
+    const accountNumber = String(input.accountNumber).replace(/\D/g, '');
     const salt = crypto.randomUUID();
     const user = {
       id: crypto.randomUUID(),
-      name: input.name.trim().replace(/\s+/g, ' '),
+      name: `${firstName} ${surname}`,
       email,
       phone: input.phone.trim(),
       clientNumber: `SVC${Math.floor(10000 + Math.random() * 90000)}`,
       status: 'active',
       role: 'client',
       avatarDataUrl: null,
-      payoutMethods: [],
+      application: {
+        title: input.title,
+        firstName,
+        surname,
+        gender: input.gender,
+        dateOfBirth: input.dateOfBirth,
+        address: input.address.trim(),
+        occupation: input.occupation,
+        investmentAmountCents: Number(input.investmentAmount) * 100,
+        optionId: option.id,
+        optionName: option.name,
+        days: option.days,
+        investmentDate: input.investmentDate,
+        bankName: input.bankName.trim(),
+        accountNumber,
+        referralName: input.referralName.trim(),
+        referralNumber: input.referralNumber.trim(),
+        fundingStatus: 'awaiting_deposit',
+      },
+      payoutMethods: [
+        {
+          id: crypto.randomUUID(),
+          bank: input.bankName.trim(),
+          accountType: 'Cheque',
+          accountName: `${firstName} ${surname}`,
+          accountNumber,
+          branchCode: '',
+        },
+      ],
       settings: { emailNotices: true, withdrawalAlerts: true },
       createdAt: new Date().toISOString(),
       lastLoginAt: new Date().toISOString(),
@@ -248,7 +271,7 @@ export async function requestPasswordReset(email) {
   if (!isEmail(email)) throw new ApiError('Enter a valid email address.', { fields: { email: 'Enter a valid email address.' } });
   return mutate(async (db) => {
     const user = db.users.find((item) => item.email === email.trim().toLowerCase());
-    if (!user) throw new ApiError('No demo account uses that email address.');
+    if (!user) throw new ApiError('No account uses that email address.');
     const code = String(Math.floor(100000 + Math.random() * 900000));
     const salt = crypto.randomUUID();
     db.resets = (db.resets || []).filter((item) => item.userId !== user.id);
@@ -260,7 +283,7 @@ export async function requestPasswordReset(email) {
       expiresAt: new Date(Date.now() + 15 * 60 * 1000).toISOString(),
       used: false,
     });
-    return { email: user.email, demoCode: code, expiresMinutes: 15 };
+    return { email: user.email, resetCode: code, expiresMinutes: 15 };
   });
 }
 
@@ -391,7 +414,6 @@ export async function getDashboard() {
       limits: LIMITS,
       banks: BANKS,
       status: user.status,
-      demo: true,
     };
   });
 }
@@ -464,37 +486,8 @@ export async function createInvestment(optionId, amountCents) {
   });
 }
 
-export async function requestDeposit({ amountCents, methodId, note }) {
-  await wait(420);
-  assertCents(amountCents, 'deposit amount');
-  return mutate((db) => {
-    const { user } = requireUser(db);
-    requireActive(user);
-    if (amountCents < LIMITS.depositMinCents || amountCents > LIMITS.depositMaxCents) {
-      throw new ApiError('Demo deposits must be between R 100.00 and R 1,000,000.00.', { fields: { amount: 'Amount is outside the demo limit.' } });
-    }
-    const method = PAYMENT_METHODS.find((item) => item.id === methodId);
-    if (!method) throw new ApiError('Choose a payment method.', { fields: { method: 'Choose a payment method.' } });
-    const now = new Date().toISOString();
-    const entry = {
-      id: crypto.randomUUID(),
-      userId: user.id,
-      type: 'deposit',
-      amountCents,
-      status: 'pending',
-      method: method.name,
-      reference: reference('DEP'),
-      note: note?.trim() || 'Simulated deposit request. No funds have been added.',
-      adminReason: '',
-      investmentId: null,
-      payoutMethodId: null,
-      simulation: true,
-      createdAt: now,
-      updatedAt: now,
-    };
-    db.transactions.push(entry);
-    return { transaction: entry, balances: balancesFor(db, user.id) };
-  });
+export async function requestDeposit() {
+  throw new ApiError('Clients cannot deposit. An administrator deposits the investment amount from your registration form.');
 }
 
 export async function requestWithdrawal({ amountCents, payoutMethodId }) {
@@ -504,7 +497,7 @@ export async function requestWithdrawal({ amountCents, payoutMethodId }) {
     const { user } = requireUser(db);
     requireActive(user);
     if (amountCents < LIMITS.withdrawalMinCents) {
-      throw new ApiError('The minimum demo withdrawal is R 100.00.', { fields: { amount: 'Minimum withdrawal is R 100.00.' } });
+      throw new ApiError('The minimum withdrawal is R 100.00.', { fields: { amount: 'Minimum withdrawal is R 100.00.' } });
     }
     const method = (user.payoutMethods || []).find((item) => item.id === payoutMethodId);
     if (!method) throw new ApiError('Choose a saved withdrawal account.', { fields: { method: 'Choose a saved withdrawal account.' } });
@@ -521,7 +514,7 @@ export async function requestWithdrawal({ amountCents, payoutMethodId }) {
       status: 'pending',
       method: `${method.bank} ${method.accountType} ${toClientUser(user).payoutMethods.find((item) => item.id === method.id).accountNumberMasked}`,
       reference: reference('WDR'),
-      note: 'Funds are on hold until this simulated withdrawal is reviewed.',
+      note: WITHDRAWAL_WAIT_MESSAGE,
       adminReason: '',
       investmentId: null,
       payoutMethodId: method.id,
@@ -542,7 +535,7 @@ export async function addPayoutMethod(input) {
     const { user } = requireUser(db);
     requireActive(user);
     if ((user.payoutMethods || []).length >= 4) {
-      throw new ApiError('You can save up to 4 demo withdrawal accounts.');
+      throw new ApiError('You can save up to 4 withdrawal accounts.');
     }
     user.payoutMethods.push({
       id: crypto.randomUUID(),
@@ -551,7 +544,6 @@ export async function addPayoutMethod(input) {
       accountName: input.accountName.trim(),
       accountNumber: String(input.accountNumber).replace(/\D/g, ''),
       branchCode: input.branchCode.trim(),
-      demo: true,
     });
     return toClientUser(user).payoutMethods;
   });
@@ -598,12 +590,15 @@ export async function adminOverview() {
     );
     const clientTx = db.transactions.filter((tx) => clients.some((client) => client.id === tx.userId));
     const sumWhere = (predicate) => clientTx.filter(predicate).reduce((sum, tx) => sum + tx.amountCents, 0);
-    const pending = clientTx.filter((tx) => (tx.type === 'deposit' || tx.type === 'withdrawal') && (tx.status === 'pending' || tx.status === 'processing'));
+    const pending = clientTx.filter((tx) => tx.type === 'withdrawal' && (tx.status === 'pending' || tx.status === 'processing'));
+    const awaitingFunding = clients.filter((client) => client.application?.fundingStatus === 'awaiting_deposit');
     return {
       profile: toClientUser(user),
       totals,
       clients: clients.length,
-      pendingCount: pending.length,
+      pendingCount: pending.length + awaitingFunding.length,
+      awaitingFundingCount: awaitingFunding.length,
+      awaitingFundingCents: awaitingFunding.reduce((sum, client) => sum + (client.application?.investmentAmountCents || 0), 0),
       approvedDepositsCents: sumWhere((tx) => tx.type === 'deposit' && tx.status === 'approved'),
       pendingDepositsCents: sumWhere((tx) => tx.type === 'deposit' && tx.status === 'pending'),
       completedWithdrawalsCents: sumWhere((tx) => tx.type === 'withdrawal' && tx.status === 'completed'),
@@ -612,7 +607,9 @@ export async function adminOverview() {
       pendingRequests: pending.sort(byNewest()).slice(0, 6).map((tx) => decorate(db, tx)),
       audit: [...db.auditLog].sort(byNewest('at')).slice(0, 6),
       pricing: db.pricing,
-      demo: true,
+      awaitingFunding: clients
+        .filter((client) => client.application?.fundingStatus === 'awaiting_deposit')
+        .map((client) => toClientUser(client)),
     };
   });
 }
@@ -714,6 +711,49 @@ export async function adminAdjust(userId, { direction, amountCents, reason }) {
   });
 }
 
+export async function adminDepositInvestment(userId, reason) {
+  await wait(420);
+  const cleanReason = assertReason(reason);
+  return mutate((db) => {
+    const { user: admin } = requireAdmin(db);
+    const user = db.users.find((item) => item.id === userId && item.role === 'client');
+    if (!user?.application) throw new ApiError('That client has no investment form.');
+    if (user.application.fundingStatus === 'deposited') {
+      throw new ApiError('This investment amount has already been deposited.');
+    }
+    const amountCents = user.application.investmentAmountCents;
+    assertCents(amountCents, 'investment amount');
+    const now = new Date().toISOString();
+    const entry = {
+      id: crypto.randomUUID(),
+      userId: user.id,
+      type: 'deposit',
+      amountCents,
+      status: 'approved',
+      method: 'Administrator deposit',
+      reference: reference('DEP'),
+      note: `${user.application.optionName} · ${user.application.days} trading days.`,
+      adminReason: cleanReason,
+      investmentId: null,
+      payoutMethodId: null,
+      simulation: true,
+      createdAt: now,
+      updatedAt: now,
+    };
+    db.transactions.push(entry);
+    user.application.fundingStatus = 'deposited';
+    writeAudit(db, admin, {
+      action: 'deposit.approved',
+      targetType: 'transaction',
+      targetId: entry.id,
+      targetLabel: entry.reference,
+      reason: cleanReason,
+      detail: `Deposited the investment amount selected by ${user.name}.`,
+    });
+    return { transaction: decorate(db, entry), user: toClientUser(user), balances: balancesFor(db, user.id) };
+  });
+}
+
 export async function adminListRequests() {
   await wait(160);
   return query((db) => {
@@ -725,6 +765,9 @@ export async function adminListRequests() {
     return {
       deposits: rows.filter((tx) => tx.type === 'deposit'),
       withdrawals: rows.filter((tx) => tx.type === 'withdrawal'),
+      awaiting: db.users
+        .filter((user) => user.role === 'client' && user.application?.fundingStatus === 'awaiting_deposit')
+        .map((user) => toClientUser(user)),
     };
   });
 }

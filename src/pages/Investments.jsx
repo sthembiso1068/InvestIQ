@@ -38,7 +38,7 @@ export default function Investments() {
       <div className="grid gap-4">
         {investments.length === 0 ? (
           <Card>
-            <EmptyState icon={PiggyBank} title="No investments on this account" body="When you confirm a package, the amount moves from available funds into the investment. Illustrated profit is credited only if the demo reaches the completion time." />
+            <EmptyState icon={PiggyBank} title="No investments on this account" body="When you confirm a package, the amount moves from available funds into the investment. An administrator must deposit your selected amount before funds are available." />
           </Card>
         ) : (
           investments.map((item) => (
@@ -81,7 +81,7 @@ export default function Investments() {
                 </div>
               ) : (
                 <p className="mt-4 text-sm text-slate-500">
-                  Simulated maturity posted the principal back to available funds and credited the illustrative profit. That credit is not a verified trading result.
+                  Maturity posted the principal back to available funds and credited the illustrative profit. That credit is not a verified trading result.
                 </p>
               )}
             </Card>

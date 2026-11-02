@@ -54,11 +54,14 @@ export function transactionTitle(tx) {
 }
 
 export function transactionDetail(tx) {
-  if (tx.type === 'profit') return 'Simulated credit. Not a verified trading result.';
-  if (tx.type === 'principal_return') return 'Simulated maturity. Principal returned to available funds.';
+  if (tx.type === 'profit') return 'Illustrative credit. Not a verified trading result.';
+  if (tx.type === 'principal_return') return 'Principal returned to available funds.';
   if (tx.type === 'investment') return tx.note || 'Moved from available funds into an active investment.';
+  if (tx.type === 'withdrawal' && (tx.status === 'pending' || tx.status === 'processing')) {
+    return tx.note || 'Waiting for admin to approve. You might be contacted soon.';
+  }
   if (tx.adminReason) return tx.adminReason;
-  return tx.note || tx.method || 'Demo ledger entry';
+  return tx.note || tx.method || 'Ledger entry';
 }
 
 export function amountPresentation(tx) {

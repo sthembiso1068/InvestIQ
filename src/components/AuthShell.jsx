@@ -7,7 +7,7 @@ const POINTS = [
   { icon: ShieldCheck, title: 'Separate accounts', body: 'Each client signs in to their own records. Administrators use a separate desk.' },
 ];
 
-export function AuthShell({ children }) {
+export function AuthShell({ children, wide = false }) {
   return (
     <div className="min-h-screen bg-canvas lg:grid lg:grid-cols-[1.05fr_0.95fr]">
       <section className="relative hidden overflow-hidden bg-navy text-white lg:flex lg:flex-col lg:justify-between lg:p-12">
@@ -34,15 +34,15 @@ export function AuthShell({ children }) {
           </ul>
         </div>
         <p className="relative max-w-md text-xs leading-5 text-slate-400">
-          SV Capital demo. This application does not accept real money, execute trades, or provide financial advice. Projected earnings are illustrative estimates, not guaranteed returns or verified trading results.
+          Projected earnings are estimates, not guaranteed returns or verified trading results.
         </p>
       </section>
       <section className="flex min-h-screen flex-col">
         <div className="bg-navy px-5 py-5 lg:hidden">
           <Logo className="h-12 w-auto" />
         </div>
-        <div className="flex flex-1 items-center justify-center px-4 py-10 sm:px-8">
-          <div className="w-full max-w-[440px]">{children}</div>
+        <div className={`flex flex-1 justify-center px-4 py-10 sm:px-8 ${wide ? 'items-start' : 'items-center'}`}>
+          <div className={wide ? 'w-full max-w-3xl' : 'w-full max-w-[440px]'}>{children}</div>
         </div>
       </section>
     </div>

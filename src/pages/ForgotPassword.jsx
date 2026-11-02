@@ -10,7 +10,7 @@ export default function ForgotPassword() {
   const [step, setStep] = useState('request');
   const [email, setEmail] = useState('');
   const [code, setCode] = useState('');
-  const [demoCode, setDemoCode] = useState('');
+  const [resetCode, setResetCode] = useState('');
   const [password, setPassword] = useState('');
   const [confirm, setConfirm] = useState('');
   const [error, setError] = useState('');
@@ -24,7 +24,7 @@ export default function ForgotPassword() {
     setLoading(true);
     try {
       const result = await requestPasswordReset(email);
-      setDemoCode(result.demoCode);
+      setResetCode(result.resetCode);
       setEmail(result.email);
       setStep('confirm');
     } catch (err) {
@@ -64,7 +64,7 @@ export default function ForgotPassword() {
       <h1 className="mt-2 text-3xl font-semibold tracking-tight text-navy">Reset your password</h1>
       {step === 'request' ? (
         <form className="mt-8 space-y-4" onSubmit={requestCode} noValidate>
-          <p className="text-sm leading-6 text-slate-500">Enter the email on your demo account. A simulated reset code will appear on this screen.</p>
+          <p className="text-sm leading-6 text-slate-500">Enter the email on your account. The reset code will appear on this screen.</p>
           {error ? <Alert tone="danger">{error}</Alert> : null}
           <Field label="Email address">
             <input className={inputClass()} type="email" autoComplete="email" value={email} placeholder="name@email.com" onChange={(event) => setEmail(event.target.value)} />
@@ -76,8 +76,8 @@ export default function ForgotPassword() {
       ) : null}
       {step === 'confirm' ? (
         <form className="mt-8 space-y-4" onSubmit={confirmReset} noValidate>
-          <Alert tone="demo">
-            <strong className="font-semibold">Simulated message.</strong> No email was sent. Your demo reset code is <span className="font-semibold tabular">{demoCode}</span>. It expires in 15 minutes.
+          <Alert tone="warning">
+            Your reset code is <span className="font-semibold tabular">{resetCode}</span>. It expires in 15 minutes.
           </Alert>
           {error ? <Alert tone="danger">{error}</Alert> : null}
           <Field label="Reset code">

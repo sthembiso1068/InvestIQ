@@ -33,7 +33,7 @@ export default function Settings() {
   async function onReset(event) {
     event.preventDefault();
     if (resetText !== 'RESET') {
-      setResetError('Type RESET to restore the sample accounts.');
+      setResetError('Type RESET to restore the administrator account.');
       return;
     }
     setResetting(true);
@@ -53,7 +53,7 @@ export default function Settings() {
       <div className="grid gap-4 lg:grid-cols-2">
         <Card className="p-5">
           <h2 className="text-base font-semibold text-navy">Notifications</h2>
-          <p className="mt-1 text-sm text-slate-500">These preferences are stored with your demo profile. No emails are sent.</p>
+          <p className="mt-1 text-sm text-slate-500">These preferences are stored with your profile on this browser.</p>
           <form className="mt-4 space-y-3" onSubmit={onSave}>
             {message ? <Alert tone="success">{message}</Alert> : null}
             <label className="flex items-center justify-between gap-3 rounded-xl border border-slate-200 px-3 py-3 text-sm">
@@ -77,16 +77,16 @@ export default function Settings() {
           </p>
         </Card>
         <Card className="p-5">
-          <h2 className="text-base font-semibold text-navy">Demo data</h2>
+          <h2 className="text-base font-semibold text-navy">Stored records</h2>
           <p className="mt-1 text-sm leading-6 text-slate-500">
-            Records in this demo stay in this browser. Resetting restores the sample client and administrator accounts and signs you out.
+            Records stay in this browser. Resetting removes stored client accounts, restores the administrator account, and signs you out.
           </p>
           <form className="mt-4 space-y-3" onSubmit={onReset}>
             {resetError ? <Alert tone="danger">{resetError}</Alert> : null}
             <Field label="Type RESET to confirm">
               <input className={inputClass()} value={resetText} onChange={(event) => setResetText(event.target.value)} />
             </Field>
-            <Button type="submit" variant="danger" loading={resetting}>Restore sample data</Button>
+            <Button type="submit" variant="danger" loading={resetting}>Restore administrator account</Button>
           </form>
         </Card>
       </div>

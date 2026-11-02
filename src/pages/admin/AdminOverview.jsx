@@ -27,11 +27,11 @@ export default function AdminOverview() {
       <PageHeader
         eyebrow="Administration"
         title="Platform overview"
-        subtitle="Client balances are summed from each personal ledger. Approving a request is the way funds move."
+        subtitle="Client balances are summed from each personal ledger. Only an administrator can deposit the amount a client selected."
       />
       <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
         <Metric label="Registered clients" value={data.clients} hint="Administrator accounts are excluded" />
-        <Metric label="Open requests" value={data.pendingCount} hint="Pending deposits and open withdrawals" />
+        <Metric label="Open requests" value={data.pendingCount} hint="Clients waiting for a deposit, plus open withdrawals" />
         <Card className="bg-navy p-5 text-white sm:col-span-2">
           <p className="text-xs font-semibold uppercase tracking-[0.14em] text-gold">Platform balances</p>
           <div className="mt-4 grid gap-4 sm:grid-cols-2">
@@ -52,8 +52,8 @@ export default function AdminOverview() {
           <Money cents={data.approvedDepositsCents} className="mt-2 block text-xl font-semibold" tone="positive" />
         </Card>
         <Card className="p-5">
-          <p className="text-xs uppercase tracking-wide text-slate-500">Pending deposits</p>
-          <Money cents={data.pendingDepositsCents} className="mt-2 block text-xl font-semibold" />
+          <p className="text-xs uppercase tracking-wide text-slate-500">Awaiting deposit</p>
+          <Money cents={data.awaitingFundingCents} className="mt-2 block text-xl font-semibold" />
         </Card>
         <Card className="p-5">
           <p className="text-xs uppercase tracking-wide text-slate-500">Completed withdrawals</p>
@@ -66,7 +66,7 @@ export default function AdminOverview() {
             <h2 className="font-semibold text-navy">Requests needing attention</h2>
             <Link to="/admin/requests" className="text-sm font-semibold text-navy">Open queue</Link>
           </div>
-          <TransactionTable rows={data.pendingRequests} showClient emptyTitle="Queue is clear" emptyBody="New deposit and withdrawal requests will appear here." />
+          <TransactionTable rows={data.pendingRequests} showClient emptyTitle="No open withdrawals" emptyBody="Withdrawal requests appear here. Investment deposits are posted from the requests queue." />
         </Card>
         <Card className="p-5">
           <div className="flex items-center justify-between">

@@ -2,7 +2,7 @@ import { compactZAR, formatDate } from '../lib/format';
 
 export function ProfitChart({ points = [] }) {
   if (!points.length) {
-    return <p className="px-5 py-16 text-center text-sm text-slate-500">Profit history will appear after a simulated investment matures.</p>;
+    return <p className="px-5 py-16 text-center text-sm text-slate-500">Profit history will appear after an investment matures.</p>;
   }
 
   const width = 640;

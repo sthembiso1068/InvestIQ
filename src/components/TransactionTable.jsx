@@ -35,12 +35,7 @@ export function TransactionTable({ rows = [], showClient = false, emptyTitle = '
                   </td>
                 ) : null}
                 <td className="px-4 py-3">
-                  <p className="font-medium text-navy">
-                    {transactionTitle(tx)}
-                    {tx.simulation && (tx.type === 'profit' || tx.type === 'deposit' || tx.type === 'withdrawal') ? (
-                      <span className="ml-2 rounded-full bg-[#F8F1D8] px-1.5 py-0.5 text-[10px] font-bold uppercase tracking-wide text-[#7A5B10]">Demo</span>
-                    ) : null}
-                  </p>
+                  <p className="font-medium text-navy">{transactionTitle(tx)}</p>
                   <p className="mt-0.5 max-w-xs text-xs leading-5 text-slate-500">{transactionDetail(tx)}</p>
                 </td>
                 <td className="whitespace-nowrap px-4 py-3 font-medium text-slate-600">{tx.reference}</td>

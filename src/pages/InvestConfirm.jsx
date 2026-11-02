@@ -60,7 +60,7 @@ export default function InvestConfirm() {
       <PageHeader
         eyebrow="New investment"
         title="Confirm allocation"
-        subtitle="Available funds move into the package when you confirm. Illustrated profit is not added until a simulated maturity."
+        subtitle="Available funds move into the package when you confirm. Illustrated profit is an estimate and is not a verified trading result."
       />
       <Disclaimer className="mb-5" />
       {loading ? <Card className="h-56 animate-pulse bg-slate-100" /> : null}
@@ -69,7 +69,7 @@ export default function InvestConfirm() {
           <CheckCircle2 className="text-positive" />
           <h2 className="mt-3 text-xl font-semibold text-navy">Investment allocated</h2>
           <p className="mt-2 max-w-xl text-sm leading-6 text-slate-600">
-            {result.reference} is active until {formatDateTime(result.completesAt)}. If this demo reaches that time, the ledger returns your capital and posts an illustrative profit. That credit is not a verified trading result.
+            {result.reference} is active until {formatDateTime(result.completesAt)}. When that time is reached, the ledger returns your capital and posts an illustrative profit. That credit is not a verified trading result.
           </p>
           <div className="mt-5 flex flex-wrap gap-2">
             <Button type="button" onClick={() => navigate('/investments')}>View investments</Button>
@@ -132,11 +132,11 @@ export default function InvestConfirm() {
                 </div>
                 {!quote.sufficient ? (
                   <Alert tone="warning" className="mt-4">
-                    {quote.message} <Link to="/wallet?intent=deposit" className="font-semibold underline">Make a demo deposit</Link>
+                    {quote.message} An administrator must deposit the amount on your investment form before you can allocate it.
                   </Alert>
                 ) : null}
                 <Button type="button" className="mt-4 w-full" disabled={!accepted || !quote.sufficient || suspended} loading={submitting} onClick={onConfirm}>
-                  Confirm simulated investment
+                  Confirm investment
                 </Button>
                 <button type="button" className="mt-3 w-full text-sm font-semibold text-slate-500" onClick={() => navigate('/investments')}>
                   Back to packages

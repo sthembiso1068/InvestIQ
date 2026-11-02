@@ -133,9 +133,6 @@ function Shell() {
         <div className="flex items-start justify-between px-5 pb-4 pt-6">
           <div>
             <Logo className="h-12 w-auto" />
-            <span className="mt-3 inline-flex rounded-full bg-gold/15 px-2 py-0.5 text-[10px] font-bold uppercase tracking-[0.14em] text-gold">
-              Demo ledger
-            </span>
           </div>
           <button type="button" className="rounded-lg p-1 text-slate-300 hover:bg-white/10 lg:hidden" onClick={() => setOpen(false)} aria-label="Close menu">
             <X size={18} />
@@ -197,7 +194,7 @@ function Shell() {
         <main className="mx-auto w-full max-w-7xl px-4 py-5 sm:px-6 lg:px-8 lg:py-8">
           {suspended ? (
             <Alert tone="warning" className="mb-5">
-              Your account is suspended. You can view your records. New deposits, withdrawals, and investments are paused.
+              Your account is suspended. You can view your records. New withdrawals and investments are paused.
             </Alert>
           ) : null}
           <Outlet />

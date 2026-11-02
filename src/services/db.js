@@ -4,7 +4,7 @@ import { maskAccount } from '../lib/format.js';
 const DB_KEY = 'svcapital.db.v1';
 const TOKEN_KEY = 'svcapital.token';
 const EMAIL_KEY = 'svcapital.email';
-export const DB_VERSION = 2;
+export const DB_VERSION = 4;
 
 let memory = null;
 let loading = null;
@@ -36,7 +36,7 @@ function persist() {
   try {
     store().setItem(DB_KEY, JSON.stringify(memory));
   } catch {
-    const error = new Error('This browser could not save the demo ledger.');
+    const error = new Error('This browser could not save the account records.');
     error.code = 'STORAGE';
     throw error;
   }
@@ -83,7 +83,6 @@ export function toClientUser(user) {
       accountName: method.accountName,
       accountNumberMasked: maskAccount(method.accountNumber),
       branchCode: method.branchCode,
-      demo: true,
     })),
   };
 }
@@ -105,7 +104,7 @@ function settle(db) {
       status: 'completed',
       method: '',
       reference: `SVC-PRI-${Math.floor(100000 + Math.random() * 900000)}`,
-      note: 'Simulated maturity. Principal returned to available funds.',
+      note: 'Principal returned to available funds.',
       adminReason: '',
       investmentId: investment.id,
       payoutMethodId: null,
@@ -121,7 +120,7 @@ function settle(db) {
       status: 'completed',
       method: '',
       reference: `SVC-PRF-${Math.floor(100000 + Math.random() * 900000)}`,
-      note: 'Illustrative profit credited on simulated maturity. Not a verified trading result.',
+      note: 'Illustrative profit credited at maturity. Not a verified trading result.',
       adminReason: '',
       investmentId: investment.id,
       payoutMethodId: null,
