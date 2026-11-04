@@ -56,7 +56,7 @@ export function TransactionTable({ rows = [], showClient = false, emptyTitle = '
 
 export function ViewAllLink({ to = '/transactions', children = 'View all transactions' }) {
   return (
-    <Link to={to} className="text-sm font-semibold text-navy hover:text-[#8A6D1B]">
+    <Link to={to} className="text-sm font-semibold text-navy hover:text-ember">
       {children}
     </Link>
   );

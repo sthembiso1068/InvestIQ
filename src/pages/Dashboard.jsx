@@ -14,12 +14,12 @@ function Stat({ label, cents, hint, icon: Icon, tone = 'neutral', featured = fal
     return (
       <article className="rounded-2xl bg-navy p-5 text-white shadow-[0_16px_40px_rgba(7,24,39,0.18)]">
         <div className="flex items-center justify-between">
-          <p className="text-xs font-semibold uppercase tracking-[0.14em] text-gold">{label}</p>
-          <span className="grid h-10 w-10 place-items-center rounded-xl bg-white/10 text-gold">
+          <p className="text-xs font-semibold uppercase tracking-[0.14em] text-ember">{label}</p>
+          <span className="grid h-10 w-10 place-items-center rounded-xl bg-white/10 text-ember">
             <Icon size={18} />
           </span>
         </div>
-        <p className="mt-4 text-3xl font-semibold tracking-tight text-gold tabular">{formatZAR(cents)}</p>
+        <p className="mt-4 text-3xl font-semibold tracking-tight text-ember tabular">{formatZAR(cents)}</p>
         <p className="mt-2 text-sm text-slate-300">{hint}</p>
       </article>
     );
@@ -80,7 +80,7 @@ export default function Dashboard() {
         subtitle="Balances below are calculated from your personal ledger. An administrator deposits the amount on your investment form."
         actions={
           <>
-            <Link to="/investments" className="inline-flex items-center gap-2 rounded-xl bg-gold px-4 py-2.5 text-sm font-semibold text-navy">
+            <Link to="/investments" className="inline-flex items-center gap-2 rounded-xl bg-ember px-4 py-2.5 text-sm font-semibold text-white">
               <Plus size={16} /> Invest
             </Link>
             <Link to="/wallet?intent=withdraw" className="inline-flex items-center gap-2 rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-sm font-semibold text-navy">

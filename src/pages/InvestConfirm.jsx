@@ -116,7 +116,7 @@ export default function InvestConfirm() {
                   </div>
                 </dl>
                 <label className="mt-6 flex items-start gap-3 text-sm leading-6 text-slate-600">
-                  <input type="checkbox" className="mt-1 h-4 w-4 accent-navy" checked={accepted} onChange={(event) => setAccepted(event.target.checked)} />
+                  <input type="checkbox" className="mt-1 h-4 w-4 accent-ember" checked={accepted} onChange={(event) => setAccepted(event.target.checked)} />
                   I understand this payout is an illustrative estimate. It is not a guaranteed return and it is not a verified trading result.
                 </label>
               </div>

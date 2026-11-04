@@ -72,16 +72,16 @@ function SideLink({ item, pendingCount, onNavigate }) {
       className={({ isActive }) =>
         cx(
           'flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium transition',
-          isActive ? 'bg-white/10 text-white shadow-[inset_3px_0_0_#D4AF37]' : 'text-slate-300 hover:bg-white/5 hover:text-white',
+          isActive ? 'bg-white/10 text-white shadow-[inset_3px_0_0_#ff6a00]' : 'text-slate-300 hover:bg-white/5 hover:text-white',
         )
       }
     >
       {({ isActive }) => (
         <>
-          <Icon size={18} className={isActive ? 'text-gold' : 'text-slate-400'} />
+          <Icon size={18} className={isActive ? 'text-ember' : 'text-slate-400'} />
           <span className="flex-1">{item.label}</span>
           {item.badge && pendingCount > 0 ? (
-            <span className="rounded-full bg-gold px-2 py-0.5 text-[11px] font-bold text-navy">{pendingCount}</span>
+            <span className="rounded-full bg-ember px-2 py-0.5 text-[11px] font-bold text-white">{pendingCount}</span>
           ) : null}
         </>
       )}
@@ -150,7 +150,7 @@ function Shell() {
           {!admin && data?.balances ? (
             <div className="rounded-2xl bg-white/5 px-3 py-3">
               <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-slate-400">Available</p>
-              <p className="mt-1 text-lg font-semibold text-gold tabular">{formatZAR(data.balances.availableCents)}</p>
+              <p className="mt-1 text-lg font-semibold text-ember tabular">{formatZAR(data.balances.availableCents)}</p>
             </div>
           ) : null}
           <div className="flex items-center gap-3 rounded-2xl bg-white/5 px-3 py-3">

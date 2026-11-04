@@ -47,7 +47,7 @@ function NotFound() {
   return (
     <div className="grid min-h-screen place-items-center bg-canvas p-6">
       <div className="text-center">
-        <p className="text-sm font-semibold uppercase tracking-[0.16em] text-[#8A6D1B]">404</p>
+        <p className="text-sm font-semibold uppercase tracking-[0.16em] text-ember">404</p>
         <h1 className="mt-2 text-2xl font-semibold text-navy">This page is not part of the account.</h1>
         <Link to={to} className="mt-4 inline-block text-sm font-semibold text-navy">
           Return to SV Capital

@@ -104,10 +104,10 @@ export default function Investments() {
                 onClick={() => setSelectedOptionId(item.id)}
                 className={cx(
                   'rounded-2xl border bg-white p-4 text-left shadow-sm transition',
-                  selected ? 'border-gold ring-2 ring-gold/30' : 'border-slate-200 hover:border-slate-300',
+                  selected ? 'border-ember ring-2 ring-ember/30' : 'border-slate-200 hover:border-slate-300',
                 )}
               >
-                <span className="text-xs font-semibold uppercase tracking-[0.14em] text-[#8A6D1B]">{item.name}</span>
+                <span className="text-xs font-semibold uppercase tracking-[0.14em] text-ember">{item.name}</span>
                 <span className="mt-2 block text-2xl font-semibold text-navy">{item.days} days</span>
                 <span className="mt-1 block text-sm text-slate-500">Illustrated profit {formatPercent(item.profitPercent)}</span>
                 <span className="mt-3 inline-flex"><StatusPill status="available" /></span>

@@ -1,10 +1,11 @@
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { BadgeCheck, CalendarRange, Landmark } from 'lucide-react';
 import { Logo } from '../components/Logo';
 import { INVESTMENT_AMOUNTS, INVESTMENT_OPTIONS } from '../lib/application';
-import { formatZAR } from '../lib/format';
+import { cx, formatZAR } from '../lib/format';
 import { useTitle } from '../hooks/useTitle';
-import { DEFAULT_PROFIT_PERCENTS, illustratedPayoutCents } from '../services/ledger';
+import { DEFAULT_PROFIT_PERCENTS, illustratedPayoutCents, illustratedProfitCents } from '../services/ledger';
 
 const FACTS = [
   { label: 'R2,000–R14,000', detail: 'Investment amounts' },
@@ -34,6 +35,108 @@ function payout(amount, percent) {
   return illustratedPayoutCents(amount * 100, percent);
 }
 
+function GrowCalculator() {
+  const [amountIndex, setAmountIndex] = useState(8);
+  const [optionIndex, setOptionIndex] = useState(2);
+  const amount = INVESTMENT_AMOUNTS[amountIndex];
+  const option = INVESTMENT_OPTIONS[optionIndex];
+  const percent = DEFAULT_PROFIT_PERCENTS[optionIndex];
+  const profit = illustratedProfitCents(amount * 100, percent);
+  const total = amount * 100 + profit;
+
+  return (
+    <section id="calculator" className="border-t border-white/10">
+      <div className="mx-auto max-w-6xl px-5 py-16 lg:px-8">
+        <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-ember">Calculator</p>
+        <h2 className="mt-3 max-w-xl text-4xl font-semibold tracking-tight">See your money grow.</h2>
+        <p className="mt-3 max-w-2xl text-sm leading-6 text-white/55">
+          Move the amount and choose an option. The illustrated payout updates straight away. No sign-up required.
+        </p>
+        <div className="mt-8 grid items-start gap-4 lg:grid-cols-[1.15fr_0.85fr]">
+          <div className="rounded-[28px] border border-white/10 bg-white/[0.03] p-6 sm:p-8">
+            <p className="text-xs font-semibold uppercase tracking-[0.16em] text-white/45">Option</p>
+            <div className="mt-3 flex flex-wrap gap-2">
+              {INVESTMENT_OPTIONS.map((item, index) => (
+                <button
+                  key={item.id}
+                  type="button"
+                  className={cx(
+                    'rounded-full px-4 py-2 text-sm font-semibold',
+                    index === optionIndex ? 'bg-ember text-white' : 'bg-white/5 text-white/70 hover:bg-white/10',
+                  )}
+                  onClick={() => setOptionIndex(index)}
+                >
+                  {item.name}
+                  <span className="ml-2 text-xs font-medium opacity-80">{item.days} days</span>
+                </button>
+              ))}
+            </div>
+            <div className="mt-8">
+              <div className="flex items-end justify-between gap-4">
+                <p className="text-xs font-semibold uppercase tracking-[0.16em] text-white/45">Investment amount</p>
+                <p className="text-3xl font-semibold tabular">{formatZAR(amount * 100)}</p>
+              </div>
+              <input
+                className="mt-4 h-2 w-full cursor-pointer accent-[#ff6a00]"
+                type="range"
+                min="0"
+                max={INVESTMENT_AMOUNTS.length - 1}
+                step="1"
+                value={amountIndex}
+                aria-label="Investment amount"
+                onChange={(event) => setAmountIndex(Number(event.target.value))}
+              />
+              <div className="mt-2 flex justify-between text-xs text-white/40">
+                <span>{formatZAR(INVESTMENT_AMOUNTS[0] * 100)}</span>
+                <span>{formatZAR(INVESTMENT_AMOUNTS[INVESTMENT_AMOUNTS.length - 1] * 100)}</span>
+              </div>
+            </div>
+            <dl className="mt-8 grid gap-4 sm:grid-cols-3">
+              <div>
+                <dt className="text-xs uppercase tracking-[0.14em] text-white/40">Term</dt>
+                <dd className="mt-1 text-sm font-semibold">{option.days} days</dd>
+              </div>
+              <div>
+                <dt className="text-xs uppercase tracking-[0.14em] text-white/40">Illustrated profit</dt>
+                <dd className="mt-1 text-sm font-semibold">{percent}%</dd>
+              </div>
+              <div>
+                <dt className="text-xs uppercase tracking-[0.14em] text-white/40">Deposit</dt>
+                <dd className="mt-1 text-sm font-semibold">Administrator</dd>
+              </div>
+            </dl>
+          </div>
+          <div className="rounded-[28px] border border-white/10 bg-[#121318] p-6 sm:p-8">
+            <p className="text-xs font-semibold uppercase tracking-[0.16em] text-ember">Illustrated result</p>
+            <h3 className="mt-3 text-2xl font-semibold">{option.name}</h3>
+            <p className="mt-1 text-sm text-white/50">{option.days} days</p>
+            <dl className="mt-8 space-y-4">
+              <div className="flex items-end justify-between gap-4 border-b border-white/10 pb-4">
+                <dt className="text-sm text-white/50">Total payout</dt>
+                <dd className="text-2xl font-semibold tabular">{formatZAR(total)}</dd>
+              </div>
+              <div className="flex items-end justify-between gap-4 border-b border-white/10 pb-4">
+                <dt className="text-sm text-white/50">Illustrated profit</dt>
+                <dd className="text-lg font-semibold tabular text-emerald-400">+{formatZAR(profit)}</dd>
+              </div>
+              <div className="flex items-end justify-between gap-4">
+                <dt className="text-sm text-white/50">Rate card</dt>
+                <dd className="text-lg font-semibold tabular">{percent}%</dd>
+              </div>
+            </dl>
+            <Link to="/register" className="mt-8 inline-flex rounded-full bg-gradient-to-r from-[#ff8a1e] to-[#ff5a00] px-5 py-3 text-sm font-semibold text-white">
+              Open an account
+            </Link>
+            <p className="mt-4 text-xs leading-5 text-white/40">
+              This calculator uses the rate card and is for illustration only. The figures are estimates, not guaranteed returns.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
 export default function Home() {
   useTitle('Investor platform');
   const example = payout(10000, 110);
@@ -44,8 +147,9 @@ export default function Home() {
         <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-5 py-4 lg:px-8">
           <Logo className="h-10 w-auto" />
           <nav className="hidden items-center gap-8 text-sm text-white/70 md:flex">
+            <a href="#calculator" className="hover:text-white">Calculator</a>
             <a href="#packages" className="hover:text-white">Packages</a>
-            <a href="#how" className="hover:text-white">How it works</a>
+            <a href="#how" className="hover:text-white">The process</a>
             <a href="#rates" className="hover:text-white">Rate card</a>
           </nav>
           <div className="flex items-center gap-2">
@@ -133,6 +237,8 @@ export default function Home() {
         </div>
       </section>
 
+      <GrowCalculator />
+
       <section id="packages" className="border-t border-white/10">
         <div className="mx-auto max-w-6xl px-5 py-16 lg:px-8">
           <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-ember">Packages</p>
@@ -156,7 +262,7 @@ export default function Home() {
 
       <section id="how" className="border-t border-white/10">
         <div className="mx-auto max-w-6xl px-5 py-16 lg:px-8">
-          <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-ember">How it works</p>
+          <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-ember">The process</p>
           <h2 className="mt-3 max-w-xl text-3xl font-semibold tracking-tight">The account follows the form you submit.</h2>
           <div className="mt-8 grid gap-4 lg:grid-cols-3">
             {STEPS.map((step, index) => (

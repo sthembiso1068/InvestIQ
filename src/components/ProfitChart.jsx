@@ -42,8 +42,8 @@ export function ProfitChart({ points = [] }) {
             </g>
           );
         })}
-        <path d={area} fill="#D4AF37" opacity="0.18" />
-        <path d={line} fill="none" stroke="#D4AF37" strokeWidth="2.5" strokeLinejoin="round" strokeLinecap="round" />
+        <path d={area} fill="#ff6a00" opacity="0.18" />
+        <path d={line} fill="none" stroke="#ff6a00" strokeWidth="2.5" strokeLinejoin="round" strokeLinecap="round" />
         <text x={padL} y={height - 8} fontSize="11" fill="#64748b">
           {formatDate(points[0].date)}
         </text>
@@ -75,7 +75,7 @@ export function AllocationDonut({ availableCents = 0, investedCents = 0 }) {
               cy="60"
               r={radius}
               fill="none"
-              stroke="#071827"
+              stroke="#09090b"
               strokeWidth="12"
               strokeDasharray={`${available} ${circumference - available}`}
               strokeDashoffset={-invested}
@@ -86,7 +86,7 @@ export function AllocationDonut({ availableCents = 0, investedCents = 0 }) {
               cy="60"
               r={radius}
               fill="none"
-              stroke="#D4AF37"
+              stroke="#ff6a00"
               strokeWidth="12"
               strokeDasharray={`${invested} ${circumference - invested}`}
               strokeLinecap="butt"

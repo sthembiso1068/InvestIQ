@@ -5,7 +5,7 @@ import { statusLabel } from '../lib/present';
 
 export function Button({ variant = 'primary', loading = false, children, className = '', disabled, ...props }) {
   const variants = {
-    primary: 'bg-gold text-navy hover:bg-[#e3c25a]',
+    primary: 'bg-ember text-white hover:bg-[#ff8a1e]',
     accent: 'bg-gradient-to-r from-[#ff8a1e] to-[#ff5a00] text-white shadow-[0_10px_24px_rgba(255,106,0,0.28)] hover:from-[#ff9a3c] hover:to-[#ff6a12]',
     secondary: 'bg-navy text-white hover:bg-deep',
     outline: 'border border-slate-200 bg-white text-navy hover:bg-slate-50',
@@ -15,7 +15,7 @@ export function Button({ variant = 'primary', loading = false, children, classNa
   return (
     <button
       className={cx(
-        'inline-flex items-center justify-center gap-2 rounded-xl px-4 py-2.5 text-sm font-semibold transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-60',
+        'inline-flex items-center justify-center gap-2 rounded-xl px-4 py-2.5 text-sm font-semibold transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ember focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-60',
         variants[variant],
         className,
       )}
@@ -31,7 +31,7 @@ export function Button({ variant = 'primary', loading = false, children, classNa
 export function inputClass(error) {
   return cx(
     'w-full rounded-xl border bg-white px-3.5 py-2.5 text-sm text-navy outline-none transition placeholder:text-slate-400 focus:ring-2',
-    error ? 'border-negative focus:border-negative focus:ring-negative/20' : 'border-slate-200 focus:border-gold focus:ring-gold/25',
+    error ? 'border-negative focus:border-negative focus:ring-negative/20' : 'border-slate-200 focus:border-ember focus:ring-ember/25',
   );
 }
 
@@ -78,7 +78,7 @@ const ALERTS = {
   success: 'bg-emerald-50 text-emerald-950 ring-emerald-100',
   danger: 'bg-red-50 text-red-800 ring-red-100',
   warning: 'bg-amber-50 text-amber-950 ring-amber-100',
-  note: 'bg-[#FBF6E4] text-[#5C4A12] ring-[#E7D7A1]',
+  note: 'bg-[#fff4ec] text-[#9a3412] ring-[#ffd7b8]',
 };
 
 export function Alert({ tone = 'info', children, className = '' }) {
@@ -94,8 +94,9 @@ export function Disclaimer({ className = '' }) {
 }
 
 export function Card({ className = '', children }) {
+  const painted = /(^|\s)!?bg-/.test(className);
   return (
-    <section className={cx('rounded-2xl border-0 bg-white shadow-[0_8px_30px_rgba(7,24,39,0.05)]', className)}>
+    <section className={cx('rounded-2xl border-0 shadow-[0_8px_30px_rgba(7,24,39,0.05)]', painted ? '' : 'bg-white', className)}>
       {children}
     </section>
   );
@@ -125,7 +126,7 @@ export function Avatar({ name, src, size = 'md' }) {
     return <img src={src} alt="" className={cx(sizes[size], 'rounded-full object-cover ring-2 ring-white')} />;
   }
   return (
-    <span className={cx(sizes[size], 'inline-flex items-center justify-center rounded-full bg-gold font-bold text-navy')}>
+    <span className={cx(sizes[size], 'inline-flex items-center justify-center rounded-full bg-ember font-bold text-white')}>
       {initials(name) || 'SV'}
     </span>
   );
@@ -150,7 +151,7 @@ const PILL = {
   approved: 'bg-emerald-50 text-emerald-800 ring-emerald-200',
   completed: 'bg-emerald-50 text-emerald-800 ring-emerald-200',
   rejected: 'bg-red-50 text-red-700 ring-red-200',
-  active: 'bg-[#F8F1D8] text-[#7A5B10] ring-[#E6D7A2]',
+  active: 'bg-[#fff4ec] text-[#c2410c] ring-[#ffd7b8]',
   suspended: 'bg-red-50 text-red-700 ring-red-200',
   closed: 'bg-slate-100 text-slate-600 ring-slate-200',
   available: 'bg-emerald-50 text-emerald-800 ring-emerald-200',

@@ -61,14 +61,14 @@ export default function Settings() {
                 <span className="block font-medium text-navy">Account notices</span>
                 <span className="text-slate-500">Deposit decisions and investment updates.</span>
               </span>
-              <input type="checkbox" className="h-4 w-4 accent-navy" checked={settings.emailNotices} onChange={(event) => setSettings({ ...settings, emailNotices: event.target.checked })} />
+              <input type="checkbox" className="h-4 w-4 accent-ember" checked={settings.emailNotices} onChange={(event) => setSettings({ ...settings, emailNotices: event.target.checked })} />
             </label>
             <label className="flex items-center justify-between gap-3 rounded-xl border border-slate-200 px-3 py-3 text-sm">
               <span>
                 <span className="block font-medium text-navy">Withdrawal alerts</span>
                 <span className="text-slate-500">Status changes on withdrawal requests.</span>
               </span>
-              <input type="checkbox" className="h-4 w-4 accent-navy" checked={settings.withdrawalAlerts} onChange={(event) => setSettings({ ...settings, withdrawalAlerts: event.target.checked })} />
+              <input type="checkbox" className="h-4 w-4 accent-ember" checked={settings.withdrawalAlerts} onChange={(event) => setSettings({ ...settings, withdrawalAlerts: event.target.checked })} />
             </label>
             <Button type="submit" loading={saving}>Save preferences</Button>
           </form>
