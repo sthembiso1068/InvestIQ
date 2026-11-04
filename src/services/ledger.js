@@ -43,7 +43,7 @@ export function defaultPricing(updatedAt = new Date().toISOString()) {
       { id: 'opt5', name: 'Option 5', days: 7, profitPercent: 154 },
     ],
     updatedAt,
-    updatedBy: 'SV Capital rate card',
+    updatedBy: 'AFR Capital rate card',
   };
 }
 

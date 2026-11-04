@@ -50,7 +50,7 @@ function NotFound() {
         <p className="text-sm font-semibold uppercase tracking-[0.16em] text-ember">404</p>
         <h1 className="mt-2 text-2xl font-semibold text-navy">This page is not part of the account.</h1>
         <Link to={to} className="mt-4 inline-block text-sm font-semibold text-navy">
-          Return to SV Capital
+          Return to AFR Capital
         </Link>
       </div>
     </div>

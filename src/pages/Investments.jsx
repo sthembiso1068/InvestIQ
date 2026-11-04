@@ -166,7 +166,7 @@ export default function Investments() {
             }}
           />
           <p className="px-4 py-3 text-xs leading-5 text-slate-500">
-            These payouts match the SV Capital rate card and are illustrative estimates. They are not guaranteed returns and they are not verified trading results. Historical investments keep the rate from the day they were opened.
+            These payouts match the AFR Capital rate card and are illustrative estimates. They are not guaranteed returns and they are not verified trading results. Historical investments keep the rate from the day they were opened.
           </p>
         </Card>
       </div>

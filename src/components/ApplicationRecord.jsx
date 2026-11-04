@@ -34,7 +34,7 @@ export function ApplicationRecord({ application, title = 'Client record' }) {
       <div className="flex flex-wrap items-start justify-between gap-3">
         <div>
           <h2 className="text-lg font-semibold text-navy">{title}</h2>
-          <p className="mt-1 text-sm text-slate-500">Details captured on the SV Capital investment form.</p>
+          <p className="mt-1 text-sm text-slate-500">Details captured on the AFR Capital investment form.</p>
         </div>
         <span className={`rounded-full px-3 py-1 text-xs font-semibold ${funded ? 'bg-emerald-50 text-positive' : 'bg-amber-50 text-amber-800'}`}>
           {funded ? 'Deposited by administrator' : 'Waiting for administrator deposit'}

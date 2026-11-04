@@ -53,8 +53,8 @@ export const PAYMENT_METHODS = [
 export { BANKS };
 
 export const BANK_DETAILS = {
-  bank: 'SV Capital',
-  accountName: 'SV Capital',
+  bank: 'AFR Capital',
+  accountName: 'AFR Capital',
   accountNumber: '',
   branchCode: '',
   notice: 'Clients do not deposit. An administrator credits the investment amount from the registration form.',

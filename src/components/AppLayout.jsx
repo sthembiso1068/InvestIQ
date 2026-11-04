@@ -59,7 +59,7 @@ const TITLES = {
 
 function resolveTitle(pathname) {
   if (pathname.startsWith('/admin/users/')) return ['Administration', 'Client profile'];
-  return TITLES[pathname] || ['SV Capital', 'Account'];
+  return TITLES[pathname] || ['AFR Capital', 'Account'];
 }
 
 function SideLink({ item, pendingCount, onNavigate }) {

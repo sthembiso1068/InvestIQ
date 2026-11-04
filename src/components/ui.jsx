@@ -208,7 +208,7 @@ export function FullScreenLoader() {
   return (
     <div className="grid min-h-screen place-items-center bg-navy">
       <div className="text-center">
-        <img src="/brand/sv-capital-logo.png" alt="SV Capital" className="mx-auto h-14 w-auto" />
+        <img src="/brand/afr-capital-logo.png" alt="AFR Capital" className="mx-auto h-14 w-auto" />
         <div className="mx-auto mt-6 h-8 w-8 animate-spin rounded-full border-2 border-gold/30 border-t-gold" />
       </div>
     </div>
