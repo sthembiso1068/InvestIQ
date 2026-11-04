@@ -12,24 +12,24 @@ import { useTitle } from '../hooks/useTitle';
 function Stat({ label, cents, hint, icon: Icon, tone = 'neutral', featured = false }) {
   if (featured) {
     return (
-      <article className="rounded-2xl bg-navy p-5 text-white shadow-[0_16px_40px_rgba(7,24,39,0.18)]">
+      <article className="rounded-[28px] border border-white/10 bg-[#121318] p-6 text-white">
         <div className="flex items-center justify-between">
-          <p className="text-xs font-semibold uppercase tracking-[0.14em] text-ember">{label}</p>
-          <span className="grid h-10 w-10 place-items-center rounded-xl bg-white/10 text-ember">
+          <p className="text-xs font-semibold uppercase tracking-[0.16em] text-ember">{label}</p>
+          <span className="grid h-10 w-10 place-items-center rounded-xl bg-[#ff6a00]/15 text-ember">
             <Icon size={18} />
           </span>
         </div>
-        <p className="mt-4 text-3xl font-semibold tracking-tight text-ember tabular">{formatZAR(cents)}</p>
-        <p className="mt-2 text-sm text-slate-300">{hint}</p>
+        <p className="mt-4 text-4xl font-semibold tracking-tight tabular">{formatZAR(cents)}</p>
+        <p className="mt-2 text-sm text-white/50">{hint}</p>
       </article>
     );
   }
-  const toneClass = tone === 'positive' ? 'text-positive' : tone === 'negative' ? 'text-negative' : 'text-navy';
-  const iconClass = tone === 'positive' ? 'bg-emerald-50 text-positive' : tone === 'negative' ? 'bg-red-50 text-negative' : 'bg-slate-100 text-navy';
+  const toneClass = tone === 'positive' ? 'text-positive' : tone === 'negative' ? 'text-negative' : 'text-white';
+  const iconClass = tone === 'positive' ? 'bg-emerald-400/10 text-positive' : tone === 'negative' ? 'bg-red-400/10 text-negative' : 'bg-white/5 text-white';
   return (
-    <article className="rounded-2xl border-0 bg-white p-5 shadow-[0_8px_30px_rgba(7,24,39,0.05)]">
+    <article className="rounded-[28px] border border-white/10 bg-white/[0.03] p-6">
       <div className="flex items-center justify-between">
-        <p className="text-xs font-semibold uppercase tracking-[0.14em] text-slate-500">{label}</p>
+        <p className="text-xs font-semibold uppercase tracking-[0.16em] text-white/45">{label}</p>
         <span className={`grid h-10 w-10 place-items-center rounded-xl ${iconClass}`}>
           <Icon size={18} />
         </span>
@@ -80,10 +80,10 @@ export default function Dashboard() {
         subtitle="Balances below are calculated from your personal ledger. An administrator deposits the amount on your investment form."
         actions={
           <>
-            <Link to="/investments" className="inline-flex items-center gap-2 rounded-xl bg-ember px-4 py-2.5 text-sm font-semibold text-white">
+            <Link to="/investments" className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-[#ff8a1e] to-[#ff5a00] px-5 py-3 text-sm font-semibold text-white">
               <Plus size={16} /> Invest
             </Link>
-            <Link to="/wallet?intent=withdraw" className="inline-flex items-center gap-2 rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-sm font-semibold text-navy">
+            <Link to="/wallet?intent=withdraw" className="inline-flex items-center gap-2 rounded-full border border-white/15 px-5 py-3 text-sm font-semibold text-white hover:bg-white/5">
               <ArrowUpFromLine size={16} /> Withdraw
             </Link>
           </>
@@ -169,7 +169,7 @@ export default function Dashboard() {
                       </div>
                       <Money cents={item.amountCents} className="font-semibold" />
                     </div>
-                    <div className="mt-2 h-1.5 overflow-hidden rounded-full bg-slate-100">
+                    <div className="mt-2 h-1.5 overflow-hidden rounded-full bg-white/10">
                       <div className="h-full rounded-full bg-gold" style={{ width: `${progressPercent(item.startedAt, item.completesAt)}%` }} />
                     </div>
                   </li>

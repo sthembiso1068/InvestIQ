@@ -18,7 +18,7 @@ export function PackageTable({ pricing, selectedOptionId, selectedAmountCents, o
               return (
                 <th
                   key={option.id}
-                  className={cx('px-4 py-3 text-left', selected ? 'bg-[#123049] text-white' : 'bg-navy text-white')}
+                  className={cx('px-4 py-3 text-left', selected ? 'bg-[#ff6a00]/20 text-white' : 'bg-ink text-white')}
                 >
                   <span className="block text-xs font-semibold uppercase tracking-wide text-gold">{option.name}</span>
                   <span className="mt-1 block text-sm font-semibold">{option.days} days</span>
@@ -36,8 +36,8 @@ export function PackageTable({ pricing, selectedOptionId, selectedAmountCents, o
               <th
                 scope="row"
                 className={cx(
-                  'sticky left-0 z-10 px-4 py-3 text-left font-semibold text-navy',
-                  index % 2 ? 'bg-slate-50' : 'bg-white',
+                  'sticky left-0 z-10 px-4 py-3 text-left font-semibold text-white',
+                  index % 2 ? 'bg-[#16171c]' : 'bg-[#121318]',
                 )}
               >
                 {formatZAR(amount)}
@@ -48,18 +48,18 @@ export function PackageTable({ pricing, selectedOptionId, selectedAmountCents, o
                 const selected = option.id === selectedOptionId && amount === selectedAmountCents;
                 const column = option.id === selectedOptionId;
                 return (
-                  <td key={option.id} className={cx('px-2 py-2', index % 2 ? 'bg-slate-50' : 'bg-white', column && 'bg-[#FBF7EA]')}>
+                  <td key={option.id} className={cx('px-2 py-2', index % 2 ? 'bg-white/[0.03]' : 'bg-[#121318]', column && 'bg-[#ff6a00]/10')}>
                     {selectable ? (
                       <button
                         type="button"
                         onClick={() => onSelect?.(option.id, amount)}
                         className={cx(
-                          'w-full rounded-xl px-2 py-2 text-left transition hover:bg-white',
-                          selected && 'bg-navy text-white shadow-sm',
+                          'w-full rounded-xl px-2 py-2 text-left transition hover:bg-white/5',
+                          selected && 'bg-ember text-white shadow-sm',
                         )}
                       >
-                        <span className={cx('block font-semibold tabular', selected ? 'text-gold' : 'text-navy')}>{formatZAR(payout)}</span>
-                        <span className={cx('mt-0.5 block text-[11px]', selected ? 'text-slate-300' : 'text-slate-500')}>
+                        <span className={cx('block font-semibold tabular', selected ? 'text-white' : 'text-navy')}>{formatZAR(payout)}</span>
+                        <span className={cx('mt-0.5 block text-[11px]', selected ? 'text-white/80' : 'text-slate-500')}>
                           Profit {formatZAR(profit)}
                         </span>
                       </button>

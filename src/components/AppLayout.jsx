@@ -72,13 +72,13 @@ function SideLink({ item, pendingCount, onNavigate }) {
       className={({ isActive }) =>
         cx(
           'flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium transition',
-          isActive ? 'bg-white/10 text-white shadow-[inset_3px_0_0_#ff6a00]' : 'text-slate-300 hover:bg-white/5 hover:text-white',
+          isActive ? 'bg-white/10 text-white shadow-[inset_3px_0_0_#ff6a00]' : 'text-white/70 hover:bg-white/5 hover:text-white',
         )
       }
     >
       {({ isActive }) => (
         <>
-          <Icon size={18} className={isActive ? 'text-ember' : 'text-slate-400'} />
+          <Icon size={18} className={isActive ? 'text-ember' : 'text-white/40'} />
           <span className="flex-1">{item.label}</span>
           {item.badge && pendingCount > 0 ? (
             <span className="rounded-full bg-ember px-2 py-0.5 text-[11px] font-bold text-white">{pendingCount}</span>
@@ -122,11 +122,11 @@ function Shell() {
   }
 
   return (
-    <div className="min-h-screen overflow-x-hidden bg-canvas">
+    <div className="app-shell min-h-screen overflow-x-hidden bg-ink text-white">
       {open ? <button type="button" className="fixed inset-0 z-40 bg-navy/50 lg:hidden" aria-label="Close menu" onClick={() => setOpen(false)} /> : null}
       <aside
         className={cx(
-          'fixed inset-y-0 left-0 z-50 flex w-72 flex-col bg-navy text-white transition-transform duration-200 lg:translate-x-0',
+          'fixed inset-y-0 left-0 z-50 flex w-72 flex-col border-r border-white/10 bg-ink text-white transition-transform duration-200 lg:translate-x-0',
           open ? 'translate-x-0' : '-translate-x-full',
         )}
       >
@@ -134,12 +134,12 @@ function Shell() {
           <div>
             <Logo className="h-12 w-auto" />
           </div>
-          <button type="button" className="rounded-lg p-1 text-slate-300 hover:bg-white/10 lg:hidden" onClick={() => setOpen(false)} aria-label="Close menu">
+          <button type="button" className="rounded-lg p-1 text-white/60 hover:bg-white/10 lg:hidden" onClick={() => setOpen(false)} aria-label="Close menu">
             <X size={18} />
           </button>
         </div>
         <nav className="flex-1 space-y-1 overflow-y-auto px-3 py-2">
-          <p className="px-3 pb-2 pt-2 text-[11px] font-semibold uppercase tracking-[0.16em] text-slate-500">
+          <p className="px-3 pb-2 pt-2 text-[11px] font-semibold uppercase tracking-[0.2em] text-white/40">
             {admin ? 'Administration' : 'Menu'}
           </p>
           {links.map((item) => (
@@ -159,7 +159,7 @@ function Shell() {
               <p className="truncate text-sm font-semibold">{user?.name}</p>
               <p className="truncate text-xs text-slate-400">{admin ? 'Administrator' : user?.clientNumber}</p>
             </div>
-            <button type="button" className="rounded-lg p-2 text-slate-300 hover:bg-white/10 hover:text-white" onClick={onLogout} aria-label="Log out">
+            <button type="button" className="rounded-lg p-2 text-white/60 hover:bg-white/10 hover:text-white" onClick={onLogout} aria-label="Log out">
               <LogOut size={18} />
             </button>
           </div>
@@ -167,11 +167,11 @@ function Shell() {
       </aside>
 
       <div className="lg:pl-72">
-        <header className="sticky top-0 z-30 flex items-center justify-between gap-3 border-b border-slate-200/80 bg-white/90 px-4 py-3 backdrop-blur sm:px-6 lg:px-8">
+        <header className="sticky top-0 z-30 flex items-center justify-between gap-3 border-b border-white/10 bg-ink/90 px-4 py-3 backdrop-blur sm:px-6 lg:px-8">
           <div className="flex min-w-0 items-center gap-3">
             <button
               type="button"
-              className="grid h-10 w-10 place-items-center rounded-xl border border-slate-200 text-navy lg:hidden"
+              className="grid h-10 w-10 place-items-center rounded-xl border border-white/15 text-white lg:hidden"
               onClick={() => setOpen(true)}
               aria-label="Open menu"
             >
@@ -179,14 +179,14 @@ function Shell() {
             </button>
             <img src="/favicon.png" alt="" className="h-9 w-9 rounded-xl lg:hidden" />
             <div className="min-w-0">
-              <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-slate-400">{eyebrow}</p>
-              <p className="truncate text-sm font-semibold text-navy">{title}</p>
+              <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-ember">{eyebrow}</p>
+              <p className="truncate font-serif text-lg italic text-white">{title}</p>
             </div>
           </div>
           <div className="flex items-center gap-3">
             <div className="hidden text-right sm:block">
-              <p className="text-sm font-semibold text-navy">{user?.name}</p>
-              <p className="text-xs text-slate-500">{admin ? 'Administrator' : 'Client account'}</p>
+              <p className="text-sm font-semibold text-white">{user?.name}</p>
+              <p className="text-xs text-white/50">{admin ? 'Administrator' : 'Client account'}</p>
             </div>
             <Avatar name={user?.name} src={user?.avatarDataUrl} />
           </div>

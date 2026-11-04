@@ -112,7 +112,7 @@ export default function Investments() {
                     <span>{completionLabel(item.completesAt)}</span>
                     <span>{Math.round(progressPercent(item.startedAt, item.completesAt))}%</span>
                   </div>
-                  <div className="h-2 overflow-hidden rounded-full bg-slate-100">
+                  <div className="h-2 overflow-hidden rounded-full bg-white/10">
                     <div className="h-full rounded-full bg-gold" style={{ width: `${progressPercent(item.startedAt, item.completesAt)}%` }} />
                   </div>
                 </div>
@@ -140,8 +140,8 @@ export default function Investments() {
                 type="button"
                 onClick={() => setSelectedOptionId(item.id)}
                 className={cx(
-                  'rounded-2xl border bg-white p-4 text-left shadow-sm transition',
-                  selected ? 'border-ember ring-2 ring-ember/30' : 'border-slate-200 hover:border-slate-300',
+                  'rounded-[28px] border p-5 text-left transition',
+                  selected ? 'border-ember bg-[#ff6a00]/10 ring-2 ring-ember/30' : 'border-white/10 bg-white/[0.03] hover:bg-white/5',
                 )}
               >
                 <span className="text-xs font-semibold uppercase tracking-[0.14em] text-ember">{item.name}</span>

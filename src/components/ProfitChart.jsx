@@ -35,8 +35,8 @@ export function ProfitChart({ points = [] }) {
           const y = padT + ((displayMax - tick) / span) * innerH;
           return (
             <g key={tick}>
-              <line x1={padL} x2={width - padR} y1={y} y2={y} stroke="#E8EDF3" />
-              <text x={padL - 8} y={y + 4} textAnchor="end" fontSize="11" fill="#64748b">
+              <line x1={padL} x2={width - padR} y1={y} y2={y} stroke="rgba(255,255,255,0.1)" />
+              <text x={padL - 8} y={y + 4} textAnchor="end" fontSize="11" fill="rgba(255,255,255,0.45)">
                 {compactZAR(tick)}
               </text>
             </g>
@@ -44,10 +44,10 @@ export function ProfitChart({ points = [] }) {
         })}
         <path d={area} fill="#ff6a00" opacity="0.18" />
         <path d={line} fill="none" stroke="#ff6a00" strokeWidth="2.5" strokeLinejoin="round" strokeLinecap="round" />
-        <text x={padL} y={height - 8} fontSize="11" fill="#64748b">
+        <text x={padL} y={height - 8} fontSize="11" fill="rgba(255,255,255,0.45)">
           {formatDate(points[0].date)}
         </text>
-        <text x={width - padR} y={height - 8} textAnchor="end" fontSize="11" fill="#64748b">
+        <text x={width - padR} y={height - 8} textAnchor="end" fontSize="11" fill="rgba(255,255,255,0.45)">
           {formatDate(points.at(-1).date)}
         </text>
       </svg>
@@ -67,7 +67,7 @@ export function AllocationDonut({ availableCents = 0, investedCents = 0 }) {
   return (
     <div className="flex items-center gap-4">
       <svg viewBox="0 0 120 120" className="h-28 w-28 shrink-0" aria-hidden="true">
-        <circle cx="60" cy="60" r={radius} fill="none" stroke="#E8EDF3" strokeWidth="12" />
+        <circle cx="60" cy="60" r={radius} fill="none" stroke="rgba(255,255,255,0.12)" strokeWidth="12" />
         {total > 0 ? (
           <>
             <circle
@@ -75,7 +75,7 @@ export function AllocationDonut({ availableCents = 0, investedCents = 0 }) {
               cy="60"
               r={radius}
               fill="none"
-              stroke="#09090b"
+              stroke="rgba(255,255,255,0.35)"
               strokeWidth="12"
               strokeDasharray={`${available} ${circumference - available}`}
               strokeDashoffset={-invested}
@@ -97,7 +97,7 @@ export function AllocationDonut({ availableCents = 0, investedCents = 0 }) {
       </svg>
       <div className="space-y-2 text-sm">
         <p className="flex items-center gap-2 text-slate-600">
-          <span className="h-2.5 w-2.5 rounded-full bg-navy" /> Available
+          <span className="h-2.5 w-2.5 rounded-full bg-white/40" /> Available
         </p>
         <p className="flex items-center gap-2 text-slate-600">
           <span className="h-2.5 w-2.5 rounded-full bg-gold" /> Invested

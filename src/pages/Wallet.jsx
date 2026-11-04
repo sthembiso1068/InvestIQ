@@ -60,9 +60,9 @@ export default function Wallet() {
         subtitle="Your investment form is kept here. Only an administrator can deposit the amount you selected."
       />
       <div className="mb-4 grid gap-3 sm:grid-cols-3">
-        <Card className="bg-navy p-4 text-white">
-          <p className="text-xs uppercase tracking-[0.14em] text-gold">Available</p>
-          <p className="mt-2 text-2xl font-semibold text-gold tabular">{formatZAR(data.balances.availableCents)}</p>
+        <Card className="p-6">
+          <p className="text-xs font-semibold uppercase tracking-[0.16em] text-ember">Available</p>
+          <p className="mt-3 text-3xl font-semibold text-white tabular">{formatZAR(data.balances.availableCents)}</p>
         </Card>
         <Card className="p-4">
           <p className="text-xs uppercase tracking-[0.14em] text-slate-500">Invested</p>

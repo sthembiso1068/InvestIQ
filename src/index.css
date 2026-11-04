@@ -42,3 +42,62 @@ textarea {
   scrollbar-width: thin;
   scrollbar-color: #c5cdd8 transparent;
 }
+
+.app-shell {
+  background: #09090b;
+  color: #fff;
+  scrollbar-color: rgba(255, 255, 255, 0.2) transparent;
+}
+
+.app-shell .text-navy { color: #fff; }
+.app-shell .text-slate-900,
+.app-shell .text-slate-800,
+.app-shell .text-slate-700 { color: rgba(255, 255, 255, 0.88); }
+.app-shell .text-slate-600 { color: rgba(255, 255, 255, 0.72); }
+.app-shell .text-slate-500 { color: rgba(255, 255, 255, 0.55); }
+.app-shell .text-slate-400 { color: rgba(255, 255, 255, 0.42); }
+.app-shell .text-slate-300 { color: rgba(255, 255, 255, 0.38); }
+.app-shell .text-positive,
+.app-shell .text-emerald-800,
+.app-shell .text-emerald-950 { color: #34d399; }
+.app-shell .text-negative,
+.app-shell .text-red-700,
+.app-shell .text-red-800 { color: #fca5a5; }
+.app-shell .text-amber-800,
+.app-shell .text-amber-950 { color: #fdba74; }
+.app-shell .text-sky-800,
+.app-shell .text-sky-950 { color: #7dd3fc; }
+
+.app-shell .bg-white,
+.app-shell .hover\:bg-white:hover { background-color: #121318; }
+.app-shell .bg-white\/90 { background-color: rgba(9, 9, 11, 0.92); }
+.app-shell .bg-slate-50,
+.app-shell .hover\:bg-slate-50:hover,
+.app-shell .bg-slate-100,
+.app-shell .hover\:bg-slate-100:hover { background-color: rgba(255, 255, 255, 0.05); }
+.app-shell .bg-slate-200,
+.app-shell .bg-slate-200\/80 { background-color: rgba(255, 255, 255, 0.08); }
+.app-shell .bg-emerald-50 { background-color: rgba(52, 211, 153, 0.12); }
+.app-shell .bg-amber-50 { background-color: rgba(255, 106, 0, 0.14); }
+.app-shell .bg-red-50 { background-color: rgba(248, 113, 113, 0.12); }
+.app-shell .bg-sky-50 { background-color: rgba(125, 211, 252, 0.12); }
+
+.app-shell .border-slate-100,
+.app-shell .border-slate-200,
+.app-shell .border-slate-300,
+.app-shell .divide-slate-100 > * { border-color: rgba(255, 255, 255, 0.1); }
+.app-shell .ring-slate-200,
+.app-shell .ring-emerald-100,
+.app-shell .ring-emerald-200,
+.app-shell .ring-amber-100,
+.app-shell .ring-amber-200,
+.app-shell .ring-red-100,
+.app-shell .ring-red-200,
+.app-shell .ring-sky-100,
+.app-shell .ring-sky-200 { --tw-ring-color: rgba(255, 255, 255, 0.12); }
+.app-shell .placeholder\:text-slate-400::placeholder { color: rgba(255, 255, 255, 0.35); }
+.app-shell .bg-\[\#fff4ec\] { background-color: rgba(255, 106, 0, 0.14); }
+.app-shell .text-\[\#9a3412\],
+.app-shell .text-\[\#c2410c\],
+.app-shell .text-\[\#7c2d12\] { color: #ffc89a; }
+.app-shell .ring-\[\#ffd7b8\] { --tw-ring-color: rgba(255, 106, 0, 0.28); }

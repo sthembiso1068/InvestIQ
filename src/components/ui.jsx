@@ -7,7 +7,7 @@ export function Button({ variant = 'primary', loading = false, children, classNa
   const variants = {
     primary: 'bg-ember text-white hover:bg-[#ff8a1e]',
     accent: 'bg-gradient-to-r from-[#ff8a1e] to-[#ff5a00] text-white shadow-[0_10px_24px_rgba(255,106,0,0.28)] hover:from-[#ff9a3c] hover:to-[#ff6a12]',
-    secondary: 'bg-navy text-white hover:bg-deep',
+    secondary: 'bg-white/10 text-white hover:bg-white/15',
     outline: 'border border-slate-200 bg-white text-navy hover:bg-slate-50',
     danger: 'bg-negative text-white hover:bg-red-700',
     ghost: 'text-slate-600 hover:bg-slate-100',
@@ -15,7 +15,7 @@ export function Button({ variant = 'primary', loading = false, children, classNa
   return (
     <button
       className={cx(
-        'inline-flex items-center justify-center gap-2 rounded-xl px-4 py-2.5 text-sm font-semibold transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ember focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-60',
+        'inline-flex items-center justify-center gap-2 rounded-full px-4 py-2.5 text-sm font-semibold transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ember focus-visible:ring-offset-2 focus-visible:ring-offset-[#09090b] disabled:cursor-not-allowed disabled:opacity-60',
         variants[variant],
         className,
       )}
@@ -96,7 +96,7 @@ export function Disclaimer({ className = '' }) {
 export function Card({ className = '', children }) {
   const painted = /(^|\s)!?bg-/.test(className);
   return (
-    <section className={cx('rounded-2xl border-0 shadow-[0_8px_30px_rgba(7,24,39,0.05)]', painted ? '' : 'bg-white', className)}>
+    <section className={cx('rounded-[28px] border border-white/10 text-white', painted ? '' : 'bg-[#121318]', className)}>
       {children}
     </section>
   );
@@ -106,9 +106,9 @@ export function PageHeader({ eyebrow, title, subtitle, actions }) {
   return (
     <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
       <div>
-        {eyebrow ? <p className="text-xs font-semibold uppercase tracking-[0.16em] text-slate-500">{eyebrow}</p> : null}
-        <h1 className="mt-1 text-2xl font-semibold tracking-tight text-navy sm:text-3xl">{title}</h1>
-        {subtitle ? <p className="mt-1 max-w-2xl text-sm leading-6 text-slate-500">{subtitle}</p> : null}
+        {eyebrow ? <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-ember">{eyebrow}</p> : null}
+        <h1 className="mt-3 font-serif text-4xl font-normal italic tracking-tight text-white sm:text-5xl">{title}</h1>
+        {subtitle ? <p className="mt-3 max-w-2xl text-sm leading-6 text-white/55">{subtitle}</p> : null}
       </div>
       {actions ? <div className="flex flex-wrap gap-2">{actions}</div> : null}
     </div>
@@ -146,16 +146,16 @@ export function Money({ cents, signed = false, tone = 'neutral', className = '' 
 }
 
 const PILL = {
-  pending: 'bg-amber-50 text-amber-800 ring-amber-200',
-  processing: 'bg-sky-50 text-sky-800 ring-sky-200',
-  approved: 'bg-emerald-50 text-emerald-800 ring-emerald-200',
-  completed: 'bg-emerald-50 text-emerald-800 ring-emerald-200',
-  rejected: 'bg-red-50 text-red-700 ring-red-200',
-  active: 'bg-[#fff4ec] text-[#c2410c] ring-[#ffd7b8]',
-  suspended: 'bg-red-50 text-red-700 ring-red-200',
-  closed: 'bg-slate-100 text-slate-600 ring-slate-200',
-  available: 'bg-emerald-50 text-emerald-800 ring-emerald-200',
-  awaiting: 'bg-[#fff4ec] text-[#c2410c] ring-[#ffd7b8]',
+  pending: 'bg-[#ff6a00]/15 text-[#ffb07a] ring-[#ff6a00]/30',
+  processing: 'bg-sky-400/10 text-sky-300 ring-sky-400/20',
+  approved: 'bg-emerald-400/10 text-emerald-300 ring-emerald-400/20',
+  completed: 'bg-emerald-400/10 text-emerald-300 ring-emerald-400/20',
+  rejected: 'bg-red-400/10 text-red-300 ring-red-400/20',
+  active: 'bg-[#ff6a00]/15 text-[#ffb07a] ring-[#ff6a00]/30',
+  suspended: 'bg-red-400/10 text-red-300 ring-red-400/20',
+  closed: 'bg-white/5 text-white/60 ring-white/10',
+  available: 'bg-emerald-400/10 text-emerald-300 ring-emerald-400/20',
+  awaiting: 'bg-[#ff6a00]/15 text-[#ffb07a] ring-[#ff6a00]/30',
 };
 
 export function StatusPill({ status }) {
@@ -170,12 +170,12 @@ export function EmptyState({ icon: Icon, title, body, action }) {
   return (
     <div className="px-6 py-12 text-center">
       {Icon ? (
-        <div className="mx-auto grid h-12 w-12 place-items-center rounded-2xl bg-slate-100 text-navy">
+        <div className="mx-auto grid h-12 w-12 place-items-center rounded-2xl bg-[#ff6a00]/15 text-ember">
           <Icon size={22} />
         </div>
       ) : null}
-      <h3 className="mt-4 text-base font-semibold text-navy">{title}</h3>
-      <p className="mx-auto mt-1 max-w-sm text-sm leading-6 text-slate-500">{body}</p>
+      <h3 className="mt-4 text-base font-semibold text-white">{title}</h3>
+      <p className="mx-auto mt-1 max-w-sm text-sm leading-6 text-white/55">{body}</p>
       {action ? <div className="mt-4">{action}</div> : null}
     </div>
   );
@@ -186,10 +186,10 @@ export function Modal({ open, title, onClose, children, footer }) {
   return (
     <div className="fixed inset-0 z-[70] flex items-end justify-center p-4 sm:items-center">
       <button type="button" className="absolute inset-0 bg-navy/60" aria-label="Close dialog" onClick={onClose} />
-      <div role="dialog" aria-modal="true" aria-label={title} className="relative w-full max-w-lg rounded-2xl bg-white p-5 shadow-2xl sm:p-6">
+      <div role="dialog" aria-modal="true" aria-label={title} className="relative w-full max-w-lg rounded-[28px] border border-white/10 bg-[#121318] p-5 text-white shadow-2xl sm:p-6">
         <div className="flex items-start justify-between gap-4">
-          <h2 className="text-lg font-semibold text-navy">{title}</h2>
-          <button type="button" className="rounded-lg p-1 text-slate-400 hover:bg-slate-100 hover:text-navy" onClick={onClose} aria-label="Close">
+          <h2 className="font-serif text-2xl font-normal italic text-white">{title}</h2>
+          <button type="button" className="rounded-lg p-1 text-white/50 hover:bg-white/10 hover:text-white" onClick={onClose} aria-label="Close">
             <X size={18} />
           </button>
         </div>
@@ -201,7 +201,7 @@ export function Modal({ open, title, onClose, children, footer }) {
 }
 
 export function Skeleton({ className = '' }) {
-  return <div className={cx('animate-pulse rounded-xl bg-slate-200/80', className)} />;
+  return <div className={cx('animate-pulse rounded-[28px] bg-white/5', className)} />;
 }
 
 export function FullScreenLoader() {
