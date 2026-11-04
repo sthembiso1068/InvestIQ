@@ -28,6 +28,7 @@ const STATUS_TEXT = {
   suspended: 'Suspended',
   closed: 'Closed',
   available: 'Available',
+  awaiting: 'Waiting for deposit',
 };
 
 export function statusLabel(status) {

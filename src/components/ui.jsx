@@ -155,6 +155,7 @@ const PILL = {
   suspended: 'bg-red-50 text-red-700 ring-red-200',
   closed: 'bg-slate-100 text-slate-600 ring-slate-200',
   available: 'bg-emerald-50 text-emerald-800 ring-emerald-200',
+  awaiting: 'bg-[#fff4ec] text-[#c2410c] ring-[#ffd7b8]',
 };
 
 export function StatusPill({ status }) {

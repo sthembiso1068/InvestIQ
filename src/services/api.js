@@ -31,7 +31,7 @@ import {
   toClientUser,
   writeToken,
 } from './db.js';
-import { buildProfitSeries, quotePackage, summarizeLedger } from './ledger.js';
+import { buildProfitSeries, illustratedProfitCents, quotePackage, summarizeLedger } from './ledger.js';
 
 export class ApiError extends Error {
   constructor(message, { code = 'BAD_REQUEST', fields = null } = {}) {
@@ -398,8 +398,62 @@ export async function updateSettings(settings) {
   });
 }
 
+function placeDepositedPackage(db, user) {
+  const application = user?.application;
+  if (!application || application.fundingStatus !== 'deposited') return;
+  if (db.investments.some((item) => item.userId === user.id)) return;
+  const amountCents = Number(application.investmentAmountCents);
+  if (!Number.isInteger(amountCents) || amountCents <= 0) return;
+  if (balancesFor(db, user.id).availableCents < amountCents) return;
+  const option = db.pricing.options.find((item) => item.id === application.optionId);
+  if (!option) return;
+  const deposit = [...db.transactions].reverse().find((tx) => tx.userId === user.id && tx.type === 'deposit' && tx.status === 'approved');
+  const started = deposit ? new Date(deposit.createdAt) : new Date();
+  if (Number.isNaN(started.getTime())) return;
+  const now = started.toISOString();
+  const profitCents = illustratedProfitCents(amountCents, option.profitPercent);
+  const investment = {
+    id: crypto.randomUUID(),
+    userId: user.id,
+    optionId: option.id,
+    optionName: option.name,
+    days: option.days,
+    amountCents,
+    profitPercent: option.profitPercent,
+    illustratedProfitCents: profitCents,
+    illustratedPayoutCents: amountCents + profitCents,
+    status: 'active',
+    startedAt: now,
+    completesAt: new Date(started.getTime() + option.days * 86400000).toISOString(),
+    settledAt: null,
+    reference: reference('INV'),
+    simulation: true,
+  };
+  db.investments.push(investment);
+  db.transactions.push({
+    id: crypto.randomUUID(),
+    userId: user.id,
+    type: 'investment',
+    amountCents,
+    status: 'completed',
+    method: '',
+    reference: investment.reference,
+    note: `${investment.optionName} · ${investment.days} trading days.`,
+    adminReason: '',
+    investmentId: investment.id,
+    payoutMethodId: null,
+    simulation: true,
+    createdAt: now,
+    updatedAt: now,
+  });
+}
+
 export async function getDashboard() {
   await wait(160);
+  await mutate((db) => {
+    const { user } = requireUser(db);
+    placeDepositedPackage(db, user);
+  });
   return query((db) => {
     const { user } = requireUser(db);
     const transactions = clientTransactions(db, user.id);
@@ -744,6 +798,7 @@ export async function adminDepositInvestment(userId, reason) {
     };
     db.transactions.push(entry);
     user.application.fundingStatus = 'deposited';
+    placeDepositedPackage(db, user);
     writeAudit(db, admin, {
       action: 'deposit.approved',
       targetType: 'transaction',

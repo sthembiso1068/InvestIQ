@@ -143,8 +143,21 @@ export default function Dashboard() {
         <div className="space-y-4">
           <Card className="p-5">
             <h2 className="text-base font-semibold text-navy">Active investments</h2>
-            {active.length === 0 ? (
-              <EmptyState icon={PiggyBank} title="No active packages" body="Choose a duration and amount from the rate card when you are ready." action={<Link to="/investments" className="text-sm font-semibold text-navy">Browse packages</Link>} />
+            {active.length === 0 && data.profile?.application ? (
+              <div className="mt-4">
+                <p className="font-semibold text-navy">{data.profile.application.optionName}</p>
+                <p className="mt-1 text-sm text-slate-500">
+                  {data.profile.application.days} trading days · {formatZAR(data.profile.application.investmentAmountCents)}
+                </p>
+                <p className="mt-2 text-sm text-slate-500">
+                  {data.profile.application.fundingStatus === 'deposited'
+                    ? 'The administrator has deposited this package.'
+                    : 'Waiting for an administrator to deposit this package.'}
+                </p>
+                <Link to="/investments" className="mt-3 inline-block text-sm font-semibold text-ember">View package</Link>
+              </div>
+            ) : active.length === 0 ? (
+              <EmptyState icon={PiggyBank} title="No active packages" body="The package from the investment form appears here." action={<Link to="/investments" className="text-sm font-semibold text-navy">View investments</Link>} />
             ) : (
               <ul className="mt-4 space-y-4">
                 {active.slice(0, 3).map((item) => (

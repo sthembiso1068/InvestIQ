@@ -25,6 +25,11 @@ export default function Investments() {
 
   const payout = selectedAmountCents && option ? illustratedPayoutCents(selectedAmountCents, option.profitPercent) : 0;
   const investments = data.investments || [];
+  const application = data.profile?.application;
+  const applicationOption = pricing.options.find((item) => item.id === application?.optionId);
+  const applicationPayout = application && applicationOption
+    ? illustratedPayoutCents(application.investmentAmountCents, applicationOption.profitPercent)
+    : 0;
 
   return (
     <div className="pb-28">
@@ -36,9 +41,41 @@ export default function Investments() {
       <Disclaimer className="mb-5" />
 
       <div className="grid gap-4">
-        {investments.length === 0 ? (
+        {investments.length === 0 && application ? (
+          <Card className="p-5">
+            <div className="flex flex-wrap items-start justify-between gap-3">
+              <div>
+                <p className="text-xs font-semibold uppercase tracking-[0.14em] text-slate-500">Selected on the investment form</p>
+                <h2 className="mt-1 text-lg font-semibold text-navy">
+                  {application.optionName} · {application.days} trading days
+                </h2>
+                <p className="mt-1 text-sm text-slate-500">Investment date {application.investmentDate}</p>
+              </div>
+              <StatusPill status={application.fundingStatus === 'deposited' ? 'approved' : 'awaiting'} />
+            </div>
+            <div className="mt-4 grid gap-3 sm:grid-cols-3">
+              <div>
+                <p className="text-xs text-slate-500">Investment amount</p>
+                <Money cents={application.investmentAmountCents} className="mt-1 block text-lg font-semibold" />
+              </div>
+              <div>
+                <p className="text-xs text-slate-500">Illustrated payout</p>
+                <Money cents={applicationPayout} className="mt-1 block text-lg font-semibold" />
+              </div>
+              <div>
+                <p className="text-xs text-slate-500">Illustrated profit</p>
+                <Money cents={applicationPayout - application.investmentAmountCents} tone="positive" className="mt-1 block text-lg font-semibold" />
+              </div>
+            </div>
+            <p className="mt-4 text-sm text-slate-500">
+              {application.fundingStatus === 'deposited'
+                ? 'An administrator has deposited this amount. It is the package on this account.'
+                : 'This is the package on the account. An administrator still needs to deposit the amount before the term starts.'}
+            </p>
+          </Card>
+        ) : investments.length === 0 ? (
           <Card>
-            <EmptyState icon={PiggyBank} title="No investments on this account" body="When you confirm a package, the amount moves from available funds into the investment. An administrator must deposit your selected amount before funds are available." />
+            <EmptyState icon={PiggyBank} title="No investments on this account" body="The package chosen on the investment form is shown here." />
           </Card>
         ) : (
           investments.map((item) => (
