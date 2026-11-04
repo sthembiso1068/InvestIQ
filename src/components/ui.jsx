@@ -6,6 +6,7 @@ import { statusLabel } from '../lib/present';
 export function Button({ variant = 'primary', loading = false, children, className = '', disabled, ...props }) {
   const variants = {
     primary: 'bg-gold text-navy hover:bg-[#e3c25a]',
+    accent: 'bg-gradient-to-r from-[#ff8a1e] to-[#ff5a00] text-white shadow-[0_10px_24px_rgba(255,106,0,0.28)] hover:from-[#ff9a3c] hover:to-[#ff6a12]',
     secondary: 'bg-navy text-white hover:bg-deep',
     outline: 'border border-slate-200 bg-white text-navy hover:bg-slate-50',
     danger: 'bg-negative text-white hover:bg-red-700',

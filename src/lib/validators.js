@@ -57,10 +57,44 @@ function isDate(value) {
   return !Number.isNaN(date.getTime());
 }
 
+export function idDigits(value) {
+  return String(value || '').replace(/\D/g, '');
+}
+
+export function isSaIdNumber(value) {
+  const id = idDigits(value);
+  if (!/^\d{13}$/.test(id)) return false;
+  let sum = 0;
+  for (let index = 0; index < 12; index += 1) {
+    let digit = Number(id[index]);
+    if (index % 2 === 1) {
+      digit *= 2;
+      if (digit > 9) digit -= 9;
+    }
+    sum += digit;
+  }
+  const check = (10 - (sum % 10)) % 10;
+  return check === Number(id[12]);
+}
+
+function idError(idNumber, dateOfBirth) {
+  const id = idDigits(idNumber);
+  if (!id) return 'Enter your ID number.';
+  if (!/^\d{13}$/.test(id)) return 'Enter the 13-digit South African ID number.';
+  if (isPastDate(dateOfBirth)) {
+    const [year, month, day] = dateOfBirth.split('-');
+    if (id.slice(0, 6) !== `${year.slice(2)}${month}${day}`) {
+      return 'The first six digits must match the date of birth.';
+    }
+  }
+  if (!isSaIdNumber(id)) return 'This ID number is not valid.';
+  return '';
+}
+
 export function validateRegistration(input) {
   const errors = {};
   const {
-    title, firstName, surname, gender, dateOfBirth, email, phone, address, occupation,
+    title, firstName, surname, gender, dateOfBirth, idNumber, email, phone, address, occupation,
     investmentAmount, optionId, investmentDate, bankName, accountNumber, referralName, referralNumber,
     password, confirm,
   } = input;
@@ -71,6 +105,8 @@ export function validateRegistration(input) {
   if (surnameError) errors.surname = surnameError;
   if (!['Male', 'Female', "Don't specify"].includes(gender)) errors.gender = 'Select a gender.';
   if (!isPastDate(dateOfBirth)) errors.dateOfBirth = 'Enter a valid date of birth.';
+  const identityError = idError(idNumber, dateOfBirth);
+  if (identityError) errors.idNumber = identityError;
   if (!String(email || '').trim()) errors.email = 'Enter your email address.';
   else if (!isEmail(email)) errors.email = 'Enter a valid email address.';
   if (!String(phone || '').trim()) errors.phone = 'Enter your mobile number.';

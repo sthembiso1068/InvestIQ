@@ -1,10 +1,12 @@
-import { Link, Route, Routes } from 'react-router-dom';
+import { Link, Navigate, Route, Routes, useLocation } from 'react-router-dom';
 import { AppLayout } from './components/AppLayout';
 import { GuestOnly, RequireAuth } from './components/guards';
+import { FullScreenLoader } from './components/ui';
 import { useAuth } from './context/AuthContext';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import ForgotPassword from './pages/ForgotPassword';
+import Home from './pages/Home';
 import Dashboard from './pages/Dashboard';
 import Investments from './pages/Investments';
 import InvestConfirm from './pages/InvestConfirm';
@@ -18,6 +20,26 @@ import AdminUserDetail from './pages/admin/AdminUserDetail';
 import AdminRequests from './pages/admin/AdminRequests';
 import AdminPackages from './pages/admin/AdminPackages';
 import AdminAudit from './pages/admin/AdminAudit';
+
+function RegisterGate() {
+  const { user, ready } = useAuth();
+  if (!ready) return <FullScreenLoader />;
+  if (user?.role === 'admin') return <Navigate to="/admin" replace />;
+  if (user) return <Navigate to="/wallet" replace />;
+  return <Register />;
+}
+
+function ClientEntry() {
+  const { user, ready } = useAuth();
+  const { pathname } = useLocation();
+  if (!ready) return <FullScreenLoader />;
+  if (user?.role === 'admin') return <Navigate to="/admin" replace />;
+  if (!user) {
+    if (pathname !== '/') return <Navigate to="/login" replace />;
+    return <Home />;
+  }
+  return <AppLayout />;
+}
 
 function NotFound() {
   const { user } = useAuth();
@@ -38,21 +60,19 @@ function NotFound() {
 export default function App() {
   return (
     <Routes>
+      <Route path="/register" element={<RegisterGate />} />
       <Route element={<GuestOnly />}>
         <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
       </Route>
-      <Route element={<RequireAuth role="client" />}>
-        <Route element={<AppLayout />}>
-          <Route index element={<Dashboard />} />
-          <Route path="investments" element={<Investments />} />
-          <Route path="investments/confirm" element={<InvestConfirm />} />
-          <Route path="wallet" element={<Wallet />} />
-          <Route path="transactions" element={<Transactions />} />
-          <Route path="profile" element={<Profile />} />
-          <Route path="settings" element={<Settings />} />
-        </Route>
+      <Route element={<ClientEntry />}>
+        <Route index element={<Dashboard />} />
+        <Route path="investments" element={<Investments />} />
+        <Route path="investments/confirm" element={<InvestConfirm />} />
+        <Route path="wallet" element={<Wallet />} />
+        <Route path="transactions" element={<Transactions />} />
+        <Route path="profile" element={<Profile />} />
+        <Route path="settings" element={<Settings />} />
       </Route>
       <Route element={<RequireAuth role="admin" />}>
         <Route element={<AppLayout />}>

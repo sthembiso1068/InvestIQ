@@ -1,9 +1,11 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { KeyRound, Mail } from 'lucide-react';
 import { AuthShell } from '../components/AuthShell';
 import { Alert, Button, Field, inputClass, PasswordField } from '../components/ui';
 import { useTitle } from '../hooks/useTitle';
 import { confirmPasswordReset, requestPasswordReset } from '../services/api';
+import { cx } from '../lib/format';
 import { validatePassword } from '../lib/validators';
 
 export default function ForgotPassword() {
@@ -59,17 +61,29 @@ export default function ForgotPassword() {
   }
 
   return (
-    <AuthShell>
-      <p className="text-xs font-semibold uppercase tracking-[0.16em] text-[#8A6D1B]">Account recovery</p>
-      <h1 className="mt-2 text-3xl font-semibold tracking-tight text-navy">Reset your password</h1>
+    <AuthShell
+      kicker="Password reset"
+      title="Reset your"
+      accent="password."
+      lede="Use the email on the account. The reset code is shown on the next screen so you can choose a new password."
+      note="Projected earnings are estimates, not guaranteed returns."
+    >
+      <p className="flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.18em] text-ember">
+        <KeyRound size={14} />
+        Password reset
+      </p>
+      <h2 className="mt-2 text-3xl font-semibold tracking-tight text-ink">Reset your password</h2>
       {step === 'request' ? (
         <form className="mt-8 space-y-4" onSubmit={requestCode} noValidate>
-          <p className="text-sm leading-6 text-slate-500">Enter the email on your account. The reset code will appear on this screen.</p>
+          <p className="text-sm leading-6 text-slate-500">Enter the email on your account. The reset code appears on the next screen.</p>
           {error ? <Alert tone="danger">{error}</Alert> : null}
           <Field label="Email address">
-            <input className={inputClass()} type="email" autoComplete="email" value={email} placeholder="name@email.com" onChange={(event) => setEmail(event.target.value)} />
+            <span className="relative block">
+              <Mail size={16} className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400" />
+              <input className={cx(inputClass(), 'pl-10')} type="email" autoComplete="email" value={email} placeholder="your@email.co.za" onChange={(event) => setEmail(event.target.value)} />
+            </span>
           </Field>
-          <Button type="submit" className="w-full" loading={loading}>
+          <Button type="submit" variant="accent" className="w-full rounded-full py-3" loading={loading}>
             Send reset code
           </Button>
         </form>
@@ -85,7 +99,7 @@ export default function ForgotPassword() {
           </Field>
           <PasswordField label="New password" autoComplete="new-password" value={password} error={fieldError} onChange={setPassword} />
           <PasswordField label="Confirm new password" autoComplete="new-password" value={confirm} onChange={setConfirm} />
-          <Button type="submit" className="w-full" loading={loading}>
+          <Button type="submit" variant="accent" className="w-full rounded-full py-3" loading={loading}>
             Update password
           </Button>
         </form>
@@ -96,7 +110,7 @@ export default function ForgotPassword() {
         </Alert>
       ) : null}
       <p className="mt-6 text-sm text-slate-500">
-        <Link to="/login" className="font-semibold text-navy hover:text-[#8A6D1B]">
+        <Link to="/login" className="font-semibold text-ink hover:text-ember">
           Back to sign in
         </Link>
       </p>

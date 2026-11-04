@@ -10,6 +10,7 @@
 import { byNewest } from '../lib/format.js';
 import { BANKS, optionById, WITHDRAWAL_WAIT_MESSAGE } from '../lib/application.js';
 import {
+  idDigits,
   isEmail,
   isSAPhone,
   validatePassword,
@@ -229,6 +230,7 @@ export async function register(input) {
         surname,
         gender: input.gender,
         dateOfBirth: input.dateOfBirth,
+        idNumber: idDigits(input.idNumber),
         address: input.address.trim(),
         occupation: input.occupation,
         investmentAmountCents: Number(input.investmentAmount) * 100,

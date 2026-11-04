@@ -3,11 +3,14 @@
 @theme {
   --color-navy: #071827;
   --color-deep: #0b1f33;
+  --color-ink: #09090b;
   --color-gold: #d4af37;
+  --color-ember: #ff6a00;
   --color-canvas: #f4f6f9;
   --color-positive: #16a34a;
   --color-negative: #dc2626;
   --font-sans: "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-serif: "Instrument Serif", Georgia, serif;
 }
 
 html,
