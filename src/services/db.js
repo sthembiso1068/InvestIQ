@@ -1,4 +1,4 @@
-import { buildSeed } from './seed.js';
+import { buildSeed, ensureOwnerAdmin } from './seed.js';
 import { maskAccount } from '../lib/format.js';
 
 const DB_KEY = 'svcapital.db.v1';
@@ -149,6 +149,7 @@ export async function ensureDb() {
       memory = await buildSeed();
       persist();
     }
+    if (await ensureOwnerAdmin(memory)) persist();
     if (settle(memory)) persist();
     return memory;
   })();

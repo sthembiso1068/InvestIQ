@@ -9,10 +9,6 @@ import { rememberedEmail } from '../services/api';
 import { validateLogin } from '../lib/validators';
 import { cx } from '../lib/format';
 
-const SAMPLES = [
-  { label: 'Administrator', email: 'admin@svcapital.co.za', password: 'Admin@12345', hint: 'Nomsa Dlamini' },
-];
-
 export default function Login() {
   const { login } = useAuth();
   const navigate = useNavigate();
@@ -104,19 +100,6 @@ export default function Login() {
           Create your account
         </Link>
       </p>
-      <div className="mt-8 border-t border-slate-100 pt-5">
-        {SAMPLES.map((sample) => (
-          <button
-            key={sample.email}
-            type="button"
-            className="text-left text-sm text-slate-500 hover:text-ink"
-            onClick={() => setForm({ email: sample.email, password: sample.password, remember: true })}
-          >
-            <span className="font-semibold text-ink">{sample.label}</span>
-            <span className="mt-0.5 block text-xs">{sample.hint} · {sample.email}</span>
-          </button>
-        ))}
-      </div>
     </AuthShell>
   );
 }
